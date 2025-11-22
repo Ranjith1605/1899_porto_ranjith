@@ -1,20 +1,23 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 1899 Portfolio - Ranjith
 
-# Run and deploy your AI Studio app
+A futuristic, space-themed portfolio website built with **React**, **TypeScript**, and **Vite**.
 
-This contains everything you need to run your app locally.
+## Features
 
-View your app in AI Studio: https://ai.studio/apps/drive/1zH3ZeqiiBbkIOtPzBk2ttt7nOuHz0ytD
+*   **Immersive Space Audio**: A custom-built, continuous procedural audio engine (Hans Zimmer style) using the Web Audio API.
+*   **Dynamic Visuals**: Parallax starfield background with a "warp speed" effect.
+*   **AI Chatbot**: A local, rule-based chatbot for appointment booking and contact info.
+*   **Responsive Design**: Optimized for all devices with a cyberpunk aesthetic.
 
-## Run Locally
+## Tech Stack
 
-**Prerequisites:**  Node.js
+*   React 18
+*   TypeScript
+*   Tailwind CSS
+*   Vite
+*   Lucide React (Icons)
 
+## Getting Started
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1.  Install dependencies: `npm install`
+2.  Run development server: `npm run dev`
