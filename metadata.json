@@ -1,0 +1,7 @@
+{
+  "name": "Ranjith porto",
+  "description": "A futuristic, sci-fi portfolio for Ranjith Ramadass (CipherPolice), featuring Gemini-powered AI interactions and a command center interface.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
