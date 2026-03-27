@@ -117,7 +117,7 @@ const App: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.9, rotate: 2 }}
                 whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 1, ease: 'easeOut' }}
+                transition={{ duration: 1, ease: [0.33, 1, 0.68, 1] }}
                 className="flex-1 relative"
               >
                 {/* HUD Overlay for image */}
