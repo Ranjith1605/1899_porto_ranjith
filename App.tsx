@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 // Scroll-aware App with cinematic space portfolio
 import SpaceBackground from './components/StarfieldBackground';
@@ -76,6 +77,69 @@ const App: React.FC = () => {
         <Projects />
         <SectionDivider />
         <Academy />
+        <SectionDivider />
+
+        {/* The Dream: Climax Section */}
+        <section id="dream" className="relative py-28 px-6 overflow-hidden" style={{ zIndex: 10 }}>
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col lg:flex-row items-center gap-12">
+              <motion.div 
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="flex-1"
+              >
+                <span className="section-tag block mb-4">The Captain's Dream // 1899 Odyssey</span>
+                <h2 className="text-4xl sm:text-6xl font-bold text-white mb-6">
+                  Building the <span className="hologram-text text-neon-cyan">Digital Starship</span>
+                </h2>
+                <p className="text-gray-400 text-lg leading-relaxed mb-6 font-mono">
+                  "My dream is creating my own spaceship, with me as the Captain. A flagship of technology, privacy, and innovation."
+                </p>
+                <div className="space-y-4">
+                  <div className="glass-card p-6 border-l-4 border-neon-cyan/50 bg-neon-cyan/5">
+                    <h3 className="text-neon-cyan font-bold mb-2">Project: CipherPolice</h3>
+                    <p className="text-sm text-gray-400 leading-relaxed">
+                      We are developing CipherPolice to return digital sovereignty to the people. 
+                      An AI-driven shield that detects malicious patterns in real-time.
+                      <br /><br />
+                      <span className="flex gap-4">
+                        <a href="https://cipherpolice.com" target="_blank" rel="noopener noreferrer" className="text-neon-amber hover:underline hover:text-neon-cyan transition-colors">→ cipherpolice.com</a>
+                        <a href="https://cipherpolice.de" target="_blank" rel="noopener noreferrer" className="text-neon-amber hover:underline hover:text-neon-cyan transition-colors">→ cipherpolice.de</a>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9, rotate: 2 }}
+                whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, ease: 'easeOut' }}
+                className="flex-1 relative"
+              >
+                {/* HUD Overlay for image */}
+                <div className="absolute -inset-4 border border-neon-cyan/20 rounded-lg pointer-events-none" />
+                <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-neon-cyan/40 pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-neon-cyan/40 pointer-events-none" />
+                
+                <div className="rounded-lg overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,243,255,0.15)] bg-space-void">
+                  <img src="/dream-spaceship.png" alt="Captain Ranjith on the Bridge" className="w-full h-auto object-cover" />
+                </div>
+                
+                {/* Coordinates overlay */}
+                <div className="absolute bottom-6 right-6 font-mono text-[10px] text-neon-cyan opacity-60 tracking-tighter text-right">
+                  SECTOR: 1899-CLIMAX<br />
+                  COORDINATES: 52.3702° N, 9.7332° E<br />
+                  STATUS: SHIP UNDER CONSTRUCTION
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
         <SectionDivider />
 
         {/* Comms section wrapper */}

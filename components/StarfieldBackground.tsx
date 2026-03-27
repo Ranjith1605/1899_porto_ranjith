@@ -18,58 +18,80 @@ const drawShip = (ctx: CanvasRenderingContext2D, x: number, y: number, scale: nu
   ctx.translate(x, y);
   ctx.scale(scale, scale);
 
-  const glow = ctx.createRadialGradient(0, 0, 2, 0, 0, 30 * scale);
-  glow.addColorStop(0, glowColor + '33');
-  glow.addColorStop(1, 'transparent');
-
-  // Engine glow
+  // Engine glow (multi-layered)
+  const engineGlow = ctx.createRadialGradient(0, 15, 0, 0, 15, 25);
+  engineGlow.addColorStop(0, glowColor);
+  engineGlow.addColorStop(0.5, glowColor + '44');
+  engineGlow.addColorStop(1, 'transparent');
+  ctx.fillStyle = engineGlow;
   ctx.beginPath();
-  ctx.arc(0, 12, 6, 0, Math.PI * 2);
-  ctx.fillStyle = glowColor + '66';
+  ctx.arc(0, 15, 12, 0, Math.PI * 2);
   ctx.fill();
 
-  ctx.beginPath();
+  ctx.strokeStyle = glowColor + '88';
+  ctx.lineWidth = 0.5;
+  ctx.fillStyle = '#050a10';
+
   if (type === 0) {
-    // Retro-futuristic Kerberos shape — wide body, swept wings
-    ctx.moveTo(0, -28);    // nose
-    ctx.lineTo(16, 10);    // right wing tip
-    ctx.lineTo(8, 14);     // right engine pod
-    ctx.lineTo(0, 10);     // center bottom
-    ctx.lineTo(-8, 14);    // left engine pod
-    ctx.lineTo(-16, 10);   // left wing tip
+    // Heavy Industrial Cruiser (1899 Style)
+    // Main Hull
+    ctx.beginPath();
+    ctx.moveTo(-15, -30); ctx.lineTo(15, -30);
+    ctx.lineTo(20, 10); ctx.lineTo(-20, 10);
     ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    
+    // Side Pods
+    ctx.beginPath();
+    ctx.rect(-28, -10, 8, 25); ctx.rect(20, -10, 8, 25);
+    ctx.fill(); ctx.stroke();
+    
+    // Technical paneling lines
+    ctx.beginPath();
+    ctx.moveTo(-15, -10); ctx.lineTo(15, -10);
+    ctx.moveTo(-15, 0); ctx.lineTo(15, 0);
+    ctx.moveTo(0, -30); ctx.lineTo(0, 10);
+    ctx.stroke();
   } else if (type === 1) {
-    // Elongated cruiser
-    ctx.moveTo(0, -32);
-    ctx.lineTo(6, -10);
-    ctx.lineTo(20, 6);
-    ctx.lineTo(12, 16);
-    ctx.lineTo(0, 12);
-    ctx.lineTo(-12, 16);
-    ctx.lineTo(-20, 6);
-    ctx.lineTo(-6, -10);
+    // Elongated Command Ship
+    ctx.beginPath();
+    ctx.moveTo(0, -40); ctx.lineTo(12, -10);
+    ctx.lineTo(8, 20); ctx.lineTo(-8, 20);
+    ctx.lineTo(-12, -10);
     ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    
+    // Vertical stabilizers
+    ctx.beginPath();
+    ctx.moveTo(8, -5); ctx.lineTo(22, 10); ctx.lineTo(8, 15);
+    ctx.moveTo(-8, -5); ctx.lineTo(-22, 10); ctx.lineTo(-8, 15);
+    ctx.stroke();
+    
+    // Core line
+    ctx.beginPath();
+    ctx.moveTo(0, -40); ctx.lineTo(0, 20);
+    ctx.stroke();
   } else {
-    // Arrow-class scout
-    ctx.moveTo(0, -20);
-    ctx.lineTo(10, 8);
-    ctx.lineTo(4, 4);
-    ctx.lineTo(0, 10);
-    ctx.lineTo(-4, 4);
-    ctx.lineTo(-10, 8);
+    // Stealth/Scout Prototype
+    ctx.beginPath();
+    ctx.moveTo(0, -25); ctx.lineTo(15, 15); 
+    ctx.lineTo(0, 5); ctx.lineTo(-15, 15);
     ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    
+    // Internal refraction lines
+    ctx.beginPath();
+    ctx.moveTo(0, -25); ctx.lineTo(0, 5);
+    ctx.moveTo(-8, 5); ctx.lineTo(8, 5);
+    ctx.stroke();
   }
 
-  ctx.fillStyle = '#0d1b2a';
-  ctx.strokeStyle = glowColor + 'aa';
-  ctx.lineWidth = 1;
-  ctx.fill();
-  ctx.stroke();
-
-  // Cockpit detail
+  // Visual "lights" (small dots)
+  ctx.fillStyle = glowColor;
   ctx.beginPath();
-  ctx.arc(0, -14, 3, 0, Math.PI * 2);
-  ctx.fillStyle = glowColor + 'cc';
+  ctx.arc(-5, -5, 1, 0, Math.PI * 2);
+  ctx.arc(5, -5, 1, 0, Math.PI * 2);
+  ctx.arc(0, -20, 1.2, 0, Math.PI * 2);
   ctx.fill();
 
   ctx.restore();

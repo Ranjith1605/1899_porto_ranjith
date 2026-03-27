@@ -14,9 +14,9 @@ const Projects: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="mb-16 text-center"
         >
-          <span className="section-tag block mb-3">Simulations & Protocols // Active Builds</span>
+          <span className="section-tag block mb-3">Historical Logs // Project Archive</span>
           <h2 className="text-4xl sm:text-5xl font-bold text-white">
-            Simulations & <span className="amber-glow text-neon-amber">Protocols</span>
+            Project <span className="amber-glow text-neon-amber">Archive</span>
           </h2>
         </motion.div>
 
