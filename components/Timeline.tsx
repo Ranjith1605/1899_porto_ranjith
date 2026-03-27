@@ -1,84 +1,108 @@
 import React from 'react';
-import { WORK_EXPERIENCE, EDUCATION } from '../constants';
 import { motion } from 'framer-motion';
-import { Briefcase, GraduationCap } from 'lucide-react';
+import { EXPERIENCE } from '../constants';
 
 const Timeline: React.FC = () => {
   return (
-    <section id="timeline" className="py-20 relative">
-      <div className="max-w-4xl mx-auto px-4">
-        
-        <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="mb-16 text-center"
+    <section id="mission-log" className="relative py-28 px-6" style={{ zIndex: 10 }}>
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-16 text-center"
         >
-            <h2 className="text-3xl font-mono font-bold text-white mb-2 flex items-center justify-center gap-2">
-                <Briefcase className="text-neon-cyan" />
-                MISSION LOG
-            </h2>
-            <div className="h-1 w-24 bg-neon-cyan mx-auto"></div>
+          <span className="section-tag block mb-3">Mission Log // Field Operations</span>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white">
+            Mission <span className="hologram-text text-neon-cyan">Log</span>
+          </h2>
         </motion.div>
 
-        <div className="relative border-l-2 border-gray-800 ml-6 md:ml-10 space-y-12">
-            {WORK_EXPERIENCE.map((job, index) => (
-                <motion.div 
-                    key={job.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="relative pl-8 md:pl-12"
+        {/* Timeline */}
+        <div className="relative pl-8">
+          {/* Vertical line */}
+          <div
+            className="timeline-glow absolute left-0 top-0 bottom-0 w-px"
+            style={{ background: 'linear-gradient(to bottom, rgba(0,243,255,0.1), rgba(0,243,255,0.5), rgba(255,170,0,0.3), rgba(0,243,255,0.1))' }}
+          />
+
+          <div className="space-y-10">
+            {EXPERIENCE.map((exp, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className="relative"
+              >
+                {/* Timeline dot */}
+                <div
+                  className="absolute -left-8 top-1 w-3 h-3 rounded-full border-2"
+                  style={{
+                    borderColor: exp.isCurrent ? '#00f3ff' : '#ffaa00',
+                    background: exp.isCurrent ? 'rgba(0,243,255,0.3)' : 'rgba(255,170,0,0.2)',
+                    boxShadow: exp.isCurrent ? '0 0 8px rgba(0,243,255,0.6)' : '0 0 6px rgba(255,170,0,0.4)',
+                    transform: 'translateX(-50%) translateX(8px)',
+                    left: '-8px',
+                  }}
                 >
-                    {/* Node Dot */}
-                    <div className="absolute -left-[9px] top-0 w-4 h-4 bg-black border-2 border-neon-cyan rounded-full shadow-[0_0_10px_rgba(0,243,255,0.5)]"></div>
-                    
-                    <div className="bg-glass-panel border border-gray-800 p-6 rounded hover:border-neon-cyan/50 transition-colors duration-300">
-                        <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
-                            <h3 className="text-xl font-bold text-white">{job.role}</h3>
-                            <span className="font-mono text-xs text-neon-cyan border border-neon-cyan/30 px-2 py-1 rounded bg-neon-cyan/5">
-                                {job.period}
-                            </span>
-                        </div>
-                        <h4 className="text-matrix-green font-mono text-sm mb-4 tracking-wide">@{job.company}</h4>
-                        
-                        <ul className="space-y-2">
-                            {job.description.map((desc, i) => (
-                                <li key={i} className="text-gray-400 text-sm flex items-start gap-2">
-                                    <span className="text-neon-cyan mt-1">›</span>
-                                    {desc}
-                                </li>
-                            ))}
-                        </ul>
+                  {exp.isCurrent && (
+                    <motion.div
+                      animate={{ scale: [1, 1.8, 1], opacity: [0.8, 0, 0.8] }}
+                      transition={{ repeat: Infinity, duration: 2 }}
+                      className="absolute inset-0 rounded-full"
+                      style={{ background: 'rgba(0,243,255,0.4)' }}
+                    />
+                  )}
+                </div>
+
+                {/* Card */}
+                <div
+                  className="glass-card rounded-sm p-6 ml-4"
+                  style={{
+                    borderColor: exp.isCurrent ? 'rgba(0,243,255,0.25)' : 'rgba(255,170,0,0.15)',
+                  }}
+                >
+                  {/* Header row */}
+                  <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
+                    <div>
+                      <h3 className="font-bold text-white text-lg leading-tight">{exp.role}</h3>
+                      <p className="font-mono text-sm mt-0.5" style={{ color: exp.isCurrent ? '#00f3ff' : '#ffaa00' }}>
+                        {exp.company} {exp.location && <span className="text-gray-600">· {exp.location}</span>}
+                      </p>
                     </div>
-                </motion.div>
+                    <div className="flex items-center gap-2">
+                      {exp.isCurrent && (
+                        <span className="font-mono text-xs px-2 py-0.5 rounded-full border" style={{ borderColor: 'rgba(0,243,255,0.4)', color: '#00f3ff', background: 'rgba(0,243,255,0.08)' }}>
+                          ● ACTIVE
+                        </span>
+                      )}
+                      <span className="font-mono text-xs text-gray-500 tracking-wide whitespace-nowrap">{exp.period}</span>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-gray-400 text-sm leading-relaxed mb-4">{exp.description}</p>
+
+                  {/* Tags */}
+                  {exp.tags && (
+                    <div className="flex flex-wrap gap-2">
+                      {exp.tags.map((tag, ti) => (
+                        <span key={ti} className="font-mono text-xs px-2 py-0.5 rounded-sm text-gray-500"
+                          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
             ))}
+          </div>
         </div>
-
-        {/* Education Section */}
-        <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="mt-24"
-        >
-             <h2 className="text-2xl font-mono font-bold text-white mb-8 flex items-center gap-2 ml-6 md:ml-10">
-                <GraduationCap className="text-matrix-green" />
-                TRAINING MODULES
-            </h2>
-            
-            <div className="grid gap-6 ml-6 md:ml-10">
-                {EDUCATION.map((edu, idx) => (
-                    <div key={idx} className="border-l-2 border-matrix-green/50 pl-4 py-2 bg-matrix-green/5 rounded-r">
-                        <h3 className="text-white font-bold">{edu.degree}</h3>
-                        <p className="text-matrix-green text-sm font-mono">{edu.institution}</p>
-                        <div className="flex justify-between items-center mt-1">
-                            <span className="text-xs text-gray-500">{edu.period}</span>
-                            {edu.details && <span className="text-xs text-gray-400 italic text-right">{edu.details}</span>}
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </motion.div>
-
       </div>
     </section>
   );

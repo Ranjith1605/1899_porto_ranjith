@@ -1,55 +1,49 @@
+export interface Skill {
+  name: string;
+  icon?: string;
+}
+
+export interface SkillCategory {
+  title: string;
+  variant: 'cyan' | 'amber' | 'green';
+  skills: Skill[];
+}
+
 export interface Experience {
-  id: string;
+  period: string;
   role: string;
   company: string;
-  period: string;
-  description: string[];
-  type: 'work' | 'education';
+  location?: string;
+  description: string;
+  tags?: string[];
+  isCurrent?: boolean;
 }
 
 export interface Project {
-  id: string;
   title: string;
-  techStack: string[];
+  role: string;
   description: string;
-  challenges: string;
-  solutions: string;
-  image?: string;
+  tech: string[];
+  highlight?: string;
 }
 
 export interface Education {
-  institution: string;
-  degree: string;
   period: string;
-  details?: string;
+  degree: string;
+  institution: string;
+  focus?: string;
+  isCurrent?: boolean;
 }
 
-export interface Skill {
-  name: string;
-  level: number; // 0 to 100
-  category: 'ai' | 'dev' | 'data' | 'tools';
+export interface CurrentStatus {
+  role: string;
+  institution: string;
+  detail: string;
+  icon: string;
+  color: 'cyan' | 'amber' | 'green';
 }
 
-export interface Language {
-  name: string;
-  level: string; // e.g. "C1", "Native"
-  score: number; // 0 to 100 for bar
-}
-
-export interface ChatMessage {
-  role: 'user' | 'model';
-  text: string;
-  timestamp: number;
-}
-
-// Extend window to support AI Studio key selection
-declare global {
-  interface AIStudio {
-    hasSelectedApiKey: () => Promise<boolean>;
-    openSelectKey: () => Promise<void>;
-  }
-
-  interface Window {
-    aistudio?: AIStudio;
-  }
+export interface NavItem {
+  id: string;
+  label: string;
 }

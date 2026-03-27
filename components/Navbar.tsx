@@ -1,53 +1,85 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NAV_ITEMS } from '../constants';
 
 const Navbar: React.FC = () => {
+  const [active, setActive] = useState('hero');
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+      const sections = NAV_ITEMS.map(n => document.getElementById(n.id));
+      let current = 'hero';
+      sections.forEach(section => {
+        if (section && window.scrollY >= section.offsetTop - 120) {
+          current = section.id;
+        }
+      });
+      setActive(current);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 border-b border-neon-cyan/30 bg-glass-panel backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-        
-        {/* Brand Identity */}
-        <div className="flex items-center gap-3">
-            <div className="w-8 h-8 border border-neon-cyan bg-neon-cyan/10 flex items-center justify-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-neon-cyan/20 animate-pulse"></div>
-                <span className="font-mono font-bold text-neon-cyan text-xs">RR</span>
-            </div>
-            <div className="flex flex-col">
-                <h1 className="font-mono font-bold text-white tracking-wider leading-none">
-                    RR
-                </h1>
-                <span className="text-[10px] text-matrix-green font-mono">SYSTEM_ONLINE</span>
-            </div>
+    <nav
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+      style={{
+        background: scrolled ? 'rgba(2,2,6,0.92)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(16px)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(0,243,255,0.12)' : '1px solid transparent',
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        {/* Logo */}
+        <button
+          onClick={() => scrollTo('hero')}
+          className="font-mono text-sm tracking-widest text-neon-cyan opacity-90 hover:opacity-100 transition-opacity"
+          style={{ textShadow: '0 0 8px rgba(0,243,255,0.5)' }}
+        >
+          RR<span className="text-neon-amber">://</span>1899
+        </button>
+
+        {/* Nav Items */}
+        <div className="hidden md:flex items-center gap-1">
+          {NAV_ITEMS.map(item => (
+            <button
+              key={item.id}
+              onClick={() => scrollTo(item.id)}
+              className={`relative px-4 py-2 font-mono text-xs tracking-widest uppercase transition-all duration-300 ${
+                active === item.id
+                  ? 'text-neon-cyan'
+                  : 'text-gray-500 hover:text-gray-200'
+              }`}
+            >
+              {active === item.id && (
+                <span
+                  className="absolute inset-x-2 bottom-0 h-px"
+                  style={{ background: 'linear-gradient(to right, transparent, #00f3ff, transparent)' }}
+                />
+              )}
+              {item.label}
+            </button>
+          ))}
         </div>
 
-        {/* Nav Links (Desktop) */}
-        <div className="hidden md:flex items-center gap-8">
-            {NAV_ITEMS.map((item) => (
-                <a 
-                    key={item.label}
-                    href={item.href}
-                    className="group flex items-center gap-2 text-sm font-mono text-gray-400 hover:text-neon-cyan transition-colors duration-300"
-                >
-                    <span className="opacity-50 group-hover:opacity-100 transition-opacity">
-                        {item.icon}
-                    </span>
-                    <span className="relative">
-                        {item.label}
-                        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-neon-cyan group-hover:w-full transition-all duration-300"></span>
-                    </span>
-                </a>
-            ))}
-        </div>
-
-        {/* Mobile Menu Trigger (Simple) */}
-        <div className="md:hidden text-neon-cyan font-mono text-xs">
-            [MENU]
+        {/* Status pill */}
+        <div className="flex items-center gap-2 font-mono text-xs">
+          <span className="w-2 h-2 rounded-full bg-hud-green animate-pulse-slow" />
+          <span className="hidden sm:inline text-gray-500 tracking-widest">ONLINE</span>
         </div>
       </div>
-      
-      {/* Decorative Lines */}
-      <div className="absolute bottom-0 left-0 w-1/4 h-[1px] bg-gradient-to-r from-transparent to-neon-cyan"></div>
-      <div className="absolute bottom-0 right-0 w-1/4 h-[1px] bg-gradient-to-l from-transparent to-neon-cyan"></div>
+
+      {/* HUD bottom line */}
+      <div
+        className="h-px w-full"
+        style={{ background: 'linear-gradient(to right, transparent, rgba(0,243,255,0.3), transparent)' }}
+      />
     </nav>
   );
 };

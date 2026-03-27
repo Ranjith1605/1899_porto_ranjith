@@ -1,253 +1,188 @@
-
-import { Experience, Project, Education, Skill, Language } from './types';
-import { User, Terminal, Cpu, Shield, Code, Glasses, Database } from 'lucide-react';
+import { SkillCategory, Experience, Project, Education, CurrentStatus, NavItem } from './types';
 
 export const PROFILE = {
-  name: "Ranjith Ramadass",
-  handle: "CipherPolice",
-  role: "AI Engineer & Architect of the Digital Frontier",
-  bio: "Developer, designer, and daydreamer engineering the bridge between humans and intelligent systems. Building the foundation for a digital space-faring civilization—starting with enlightened, peaceful AI.",
-  funFact: "I still think about '1899' more than I should. That's where the purpose starts for me: reshaping reality responsibly.",
-  location: "Hannover, Germany",
-  availability: "Open to Collaborate",
-  github: "https://github.com/Ranjith1605",
-  email: "007ranjithr.v@gmail.com",
-  linkedin: "https://www.linkedin.com/in/ranjith-ramadass-1591a819a"
+  name: 'Ranjith Ramadass',
+  role: 'Strategic AI Developer | Digital Business Visionary',
+  bio: 'Bridging the gap between raw technological power and operational excellence. From serving in high-pressure gastronomy to founding an AI cybersecurity startup and optimizing digital workflows. Currently seeking the perfect coordinates for my Master Thesis.',
+  email: '007ranjithr.v@gmail.com',
+  linkedin: 'https://www.linkedin.com/in/ranjithramadass',
+  github: 'https://github.com/Ranjith1605',
+  availability: 'Open to Collaborate',
 };
 
-export const LANGUAGES: Language[] = [
-  { name: "English", level: "C1 (Full Professional)", score: 90 },
-  { name: "German", level: "B2 (Professional Working)", score: 75 },
-  { name: "Tamil", level: "A2 (Elementary)", score: 40 },
+export const NAV_ITEMS: NavItem[] = [
+  { id: 'hero', label: 'Bridge' },
+  { id: 'coordinates', label: 'Coordinates' },
+  { id: 'arsenal', label: 'Arsenal' },
+  { id: 'mission-log', label: 'Mission Log' },
+  { id: 'simulations', label: 'Simulations' },
+  { id: 'academy', label: 'Academy' },
+  { id: 'comms', label: 'Comms' },
 ];
 
-export const SKILLS: Skill[] = [
-  { name: "Python & AI Stack", level: 95, category: 'ai' },
-  { name: "LLM / Prompt Eng.", level: 95, category: 'ai' },
-  { name: "Computer Vision", level: 90, category: 'ai' },
-  { name: "React / TypeScript", level: 85, category: 'dev' },
-  { name: "SQL / Data Analysis", level: 90, category: 'data' },
-  { name: "Power BI / Tableau", level: 88, category: 'data' },
-  { name: "AWS / Cloud", level: 80, category: 'tools' },
-  { name: "Docker / CI/CD", level: 75, category: 'tools' },
+export const CURRENT_COORDINATES: CurrentStatus[] = [
+  {
+    role: 'Impact MBA Student — Master Thesis Phase',
+    institution: 'Tomorrow University of Applied Sciences',
+    detail: 'Preparing Master Thesis in AI & Sustainability at enercity. Focus: Sustainability, Innovation & Leadership.',
+    icon: '🎓',
+    color: 'cyan',
+  },
+  {
+    role: 'Werkstudent Digital Business',
+    institution: 'Studyheads (Salzgitter)',
+    detail: 'Optimizing internal workflows, driving digital transformation and process automation.',
+    icon: '⚙️',
+    color: 'amber',
+  },
+  {
+    role: 'Founder & Lead Developer',
+    institution: 'CipherPolice',
+    detail: 'Building open-source AI-driven browser security. Privacy-first, community-powered cybersecurity.',
+    icon: '🛡️',
+    color: 'green',
+  },
 ];
 
-export const WORK_EXPERIENCE: Experience[] = [
+export const SKILL_CATEGORIES: SkillCategory[] = [
   {
-    id: 'w0',
-    role: "Founder & Strategist",
-    company: "Cipher",
-    period: "Nov 2025 – Present",
-    type: 'work',
-    description: [
-      "Leading a cross-functional team of 5 professionals in developing innovative AI/Tech solutions.",
-      "Defining product strategy, roadmap, and execution plans for early-stage operations.",
-      "Orchestrating technical architecture and business development efforts to drive growth."
-    ]
+    title: 'AI & Tech',
+    variant: 'cyan',
+    skills: [
+      { name: 'Python' },
+      { name: 'React' },
+      { name: 'Next.js' },
+      { name: 'TypeScript' },
+      { name: 'Node.js' },
+      { name: 'LLM Prompt Engineering' },
+      { name: 'API Integration' },
+      { name: 'Supabase' },
+      { name: 'AWS' },
+      { name: 'REST APIs' },
+      { name: 'GitHub' },
+      { name: 'React Native' },
+    ],
   },
   {
-    id: 'w1',
-    role: "AI Developer & Business Intelligence",
-    company: "LENSAI",
-    period: "Sep 2025 – Present",
-    type: 'work',
-    description: [
-      "Development of AI-based features to enhance user interaction for smart glasses.",
-      "Integration of computer vision and data processing workflows into existing wearable technologies.",
-      "Analysis of user data to derive product and business decisions.",
-      "Collaboration with software teams to implement secure, scalable AI modules."
-    ]
+    title: 'Data & Engineering',
+    variant: 'amber',
+    skills: [
+      { name: 'Power BI' },
+      { name: 'SQL' },
+      { name: 'Tableau' },
+      { name: 'AWS QuickSight' },
+      { name: 'Fusion 360' },
+      { name: 'CATIA V7' },
+      { name: 'SolidWorks' },
+      { name: 'ANSYS' },
+    ],
   },
   {
-    id: 'w2',
-    role: "AI Product Developer",
-    company: "LAIFE",
-    period: "Jul 2025 – Nov 2025",
-    type: 'work',
-    description: [
-      "Contributed to the development of AI-powered AR features for mobile systems.",
-      "Created technical product requirements and prototyped new AI use cases.",
-      "Optimised app architecture to improve load times and user flow.",
-      "Worked closely with design and engineering teams to deliver intelligent interfaces."
-    ]
+    title: 'Soft Skills & Business',
+    variant: 'green',
+    skills: [
+      { name: 'Digital Business Transformation' },
+      { name: 'Product Management' },
+      { name: 'Startup Leadership' },
+      { name: 'High Emotional Intelligence' },
+      { name: 'Resilience (Gastronomy-tested)' },
+      { name: 'Cross-Cultural Communication' },
+    ],
   },
-  {
-    id: 'w3',
-    role: "AI Business Development",
-    company: "BACKWARDSLA",
-    period: "Mar 2025 – Sep 2025",
-    type: 'work',
-    description: [
-      "Identified and qualified new clients in the AI and software sector.",
-      "Built structured lead pipelines and handed them over to sales teams.",
-      "Analysed target markets and competitors to scale new business models.",
-      "Successfully operated in a dynamic remote environment with a focus on sales KPIs."
-    ]
-  },
-  {
-    id: 'w4',
-    role: "Intern Mechanics & Operations",
-    company: "LIME",
-    period: "Jun 2025 – Aug 2025",
-    type: 'work',
-    description: [
-      "Support in daily operation to ensure e-scooter availability.",
-      "Carrying out technical diagnostics, maintenance and repair processes.",
-      "Coordination with city and service teams to optimise fleet logistics."
-    ]
-  },
-  {
-    id: 'w5',
-    role: "Business Development",
-    company: "FETTLUKE.DE",
-    period: "Aug 2023 – Oct 2025",
-    type: 'work',
-    description: [
-      "Management of restaurant operations with a focus on customer satisfaction.",
-      "Responsible for staff management, procurement, and process optimisation.",
-      "Development of business strategies for future franchise expansion."
-    ]
-  },
-  {
-    id: 'w6',
-    role: "Business Development",
-    company: "GAO TEK",
-    period: "May 2025 – Jul 2025",
-    type: 'work',
-    description: [
-      "Conducted market analyses to identify potential customers.",
-      "Assisted in outreach campaigns and created pitch materials.",
-      "Collaborated with international teams for lead generation."
-    ]
-  },
-  {
-    id: 'w7',
-    role: "Marketing Research Analyst",
-    company: "KINESIS.EU",
-    period: "Feb 2024 – Jul 2024",
-    type: 'work',
-    description: [
-      "Developed a strategic marketing model based on UN sustainability research.",
-      "Prepared grant applications and project proposals.",
-      "Aligned project objectives with SDGs & IDGs."
-    ]
-  },
-  {
-    id: 'w8',
-    role: "Internship & Bachelor Thesis",
-    company: "GOKUL AUTOTECH",
-    period: "Jan 2022 – Jul 2022",
-    type: 'work',
-    description: [
-      "Optimised high-pressure and gravity casting to reduce cycle times.",
-      "Analysed production processes and implemented efficient workflows."
-    ]
-  },
-  {
-    id: 'w9',
-    role: "Mechanical Engineering & Automotive Mechanics",
-    company: "V.M. CARS",
-    period: "Oct 2020 – Jul 2022",
-    type: 'work',
-    description: [
-      "Performed complex vehicle diagnostics and repairs.",
-      "Designed custom parts using Fusion 360 & 3D printing.",
-      "Researched new mobility solutions as early concept work."
-    ]
-  }
 ];
 
-export const EDUCATION: Education[] = [
+export const EXPERIENCE: Experience[] = [
   {
-    institution: "Tomorrow University",
-    degree: "Impact MBA – Sustainability, Innovation & Leadership",
-    period: "2025 – Present",
-    details: "Specialisations: Data Mastery, IoT, Innovation Strategies | Berlin, Germany"
+    period: 'Mar 2026 – Present',
+    role: 'Werkstudent Digital Business',
+    company: 'Studyheads',
+    location: 'Salzgitter, Germany',
+    description: 'Optimizing internal workflows and digital transformation initiatives. Building scalable digital tooling and process documentation.',
+    tags: ['Process Optimization', 'Digital Tools', 'Automation'],
+    isCurrent: true,
   },
   {
-    institution: "Harz University of Applied Sciences",
-    degree: "M.Tech – Technology & Innovation Management",
-    period: "2023 – 2025",
-    details: "Wernigerode, Germany"
+    period: 'Nov 2025 – Present',
+    role: 'Founder & Project Lead',
+    company: 'CipherPolice',
+    location: 'Remote',
+    description: 'Founded and leading development of an AI-driven browser extension for user privacy and cybersecurity. Open-source, community-first approach.',
+    tags: ['AI', 'Cybersecurity', 'Browser Extension', 'Open Source'],
+    isCurrent: true,
   },
   {
-    institution: "Chennai Institute of Technology",
-    degree: "Bachelor of Mechanical Engineering",
-    period: "2018 – 2022",
-    details: "Chennai, India"
-  }
+    period: 'Apr 2025 – Oct 2025',
+    role: 'AI Full-Stack Developer',
+    company: 'LAIFE GmbH & LENSAI',
+    location: 'Germany',
+    description: 'Optimized system efficiency by 40% through architectural improvements. Integrated scalable AI modules into production applications.',
+    tags: ['Python', 'React', 'AI Integration', 'Performance'],
+    isCurrent: false,
+  },
+  {
+    period: 'May 2025 – Aug 2025',
+    role: 'Mechanic & Fleet Management',
+    company: 'Lime GmbH',
+    location: 'Germany',
+    description: 'Led fleet management operations for urban e-mobility. Applied systematic problem-solving in fast-paced operations.',
+    tags: ['Fleet Management', 'Operations', 'E-Mobility'],
+    isCurrent: false,
+  },
+  {
+    period: 'Aug 2023 – Oct 2025',
+    role: 'Service Expert',
+    company: 'Fettluke',
+    location: 'Germany',
+    description: 'Thrived in high-pressure system gastronomy. Funded my studies through excellence in human interaction and resilient performance under pressure.',
+    tags: ['Leadership', 'Communication', 'Resilience'],
+    isCurrent: false,
+  },
 ];
 
 export const PROJECTS: Project[] = [
   {
-    id: "p1",
-    title: "LensAI Smart Glasses Integration",
-    techStack: ["Python", "OpenCV", "Embedded APIs", "Hardware"],
-    description: "Development of a complete hardware-to-software pipeline for smart glasses.",
-    challenges: "Integrating real-time computer vision on low-power embedded hardware while maintaining battery efficiency.",
-    solutions: "Optimized vision models using quantization and implemented efficient event-driven data processing workflows.",
-    image: "https://picsum.photos/800/450?random=1"
+    title: 'StoryBridge Android App',
+    role: 'AI Developer — Full-Stack & Mobile',
+    description: 'A social storytelling platform powered by AI. Users co-create immersive narratives with intelligent prompts. Built with a modern cross-platform stack for scale.',
+    tech: ['React Native', 'TypeScript', 'Supabase', 'AWS', 'LLM APIs'],
+    highlight: 'AI-Powered Storytelling',
   },
   {
-    id: "p2",
-    title: "StoryBridge Android App",
-    techStack: ["React Native", "TypeScript", "Supabase", "AWS"],
-    description: "Full-stack and mobile development of a social storytelling platform for Android.",
-    challenges: "Synchronizing story states across multiple users in real-time with low latency.",
-    solutions: "Leveraged Supabase real-time subscriptions and local caching strategies to ensure smooth user experience even with poor connectivity.",
-    image: "https://picsum.photos/800/450?random=2"
+    title: 'EU AI Act Research Project',
+    role: 'Lead Researcher',
+    description: 'Deep analysis of EU AI Act regulatory impacts. Developed risk classification frameworks and compliance models for AI systems across industries.',
+    tech: ['AI Policy', 'Risk Analysis', 'Regulatory Compliance', 'Research'],
+    highlight: 'AI Governance',
   },
   {
-    id: "p3",
-    title: "Thirukkural GPT",
-    techStack: ["LLM", "Python", "NLP", "React"],
-    description: "An AI-powered semantic search and explanation engine for the ancient Tamil text Thirukkural.",
-    challenges: "Preserving the poetic nuance of classical Tamil while providing accurate modern English interpretations.",
-    solutions: "Fine-tuned a language model on parallel corpuses of scholarly commentaries to ensure cultural accuracy.",
-    image: "https://picsum.photos/800/450?random=6"
+    title: 'Autonomous Vacuum Cleaning Robot',
+    role: 'Embedded Systems Developer',
+    description: 'Engineered an autonomous cleaning robot with sensor fusion, obstacle avoidance, and embedded logic. From CAD design to working prototype.',
+    tech: ['Embedded C', 'Sensor Fusion', 'CAD', 'Robotics', 'ANSYS'],
+    highlight: 'Robotics & Automation',
   },
-  {
-    id: "p4",
-    title: "VisionOS Spatial Lab",
-    techStack: ["Swift", "ARKit", "Spatial Computing", "AI"],
-    description: "Experimental spatial computing interfaces exploring human-AI collaboration in 3D space.",
-    challenges: "Designing intuitive gesture-based interactions for non-tactile feedback loops in AR environments.",
-    solutions: "Implemented predictive hand-tracking models and adaptive UI scaling based on user gaze depth.",
-    image: "https://picsum.photos/800/450?random=7"
-  },
-  {
-    id: "p5",
-    title: "EU AI Act Research Project",
-    techStack: ["Legal Tech", "Data Analysis", "Risk Modeling"],
-    description: "Analysis of regulatory impacts, risk classification, and compliance models for AI.",
-    challenges: "Translating complex legal regulatory frameworks into technical compliance requirements for developers.",
-    solutions: "Created a structured risk classification matrix and a compliance checklist tool for AI deployments.",
-    image: "https://picsum.photos/800/450?random=3"
-  },
-  {
-    id: "p6",
-    title: "Autonomous Vacuum Cleaning Robot",
-    techStack: ["C++", "Sensors", "Embedded Logic"],
-    description: "Development of an autonomous cleaning robot with sensor control and embedded logic.",
-    challenges: "Obstacle avoidance and path planning in dynamic environments.",
-    solutions: "Implemented a custom SLAM-like algorithm using basic sensor arrays for efficient room mapping.",
-    image: "https://picsum.photos/800/450?random=4"
-  },
-  {
-    id: "p7",
-    title: "CipherPolice Security Tool",
-    techStack: ["AI Security", "Browser Extension", "LLM"],
-    description: "AI browser security tool focused on detecting malicious patterns.",
-    challenges: "Real-time detection without compromising browser performance.",
-    solutions: "Used lightweight local models for initial filtering before offloading complex analysis to the cloud.",
-    image: "https://picsum.photos/800/450?random=5"
-  }
 ];
 
-export const NAV_ITEMS = [
-  { label: 'STATUS', icon: <User size={16} />, href: '#hero' },
-  { label: 'TIMELINE', icon: <Terminal size={16} />, href: '#timeline' },
-  { label: 'SKILLS', icon: <Code size={16} />, href: '#skills' },
-  { label: 'ARCHIVE', icon: <Cpu size={16} />, href: '#projects' },
-  { label: 'R&D LAB', icon: <Glasses size={16} />, href: '#lab' },
+export const EDUCATION: Education[] = [
+  {
+    period: '2025 – Present',
+    degree: 'Impact MBA (Sustainability, Innovation & Leadership)',
+    institution: 'Tomorrow University of Applied Sciences',
+    focus: 'Master Thesis: AI & Sustainability @ enercity',
+    isCurrent: true,
+  },
+  {
+    period: '2023 – 2025',
+    degree: 'M.Eng — Technology & Innovation Management',
+    institution: 'Hochschule Harz',
+    focus: 'Innovation Systems, Smart Manufacturing, Digital Business',
+    isCurrent: false,
+  },
+  {
+    period: '2018 – 2022',
+    degree: 'B.Eng — Mechanical Engineering',
+    institution: 'Chennai Institute of Technology',
+    focus: 'Mechanical Design, Thermodynamics, CAD/CAM',
+    isCurrent: false,
+  },
 ];

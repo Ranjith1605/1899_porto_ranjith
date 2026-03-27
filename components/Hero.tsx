@@ -1,93 +1,197 @@
-import React from 'react';
-import { PROFILE } from '../constants';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { PROFILE } from '../constants';
+
+const ROLES = [
+  'Strategic AI Developer',
+  'Founder of CipherPolice',
+  'Digital Business Visionary',
+  'AI & Sustainability Researcher',
+];
+
+const TypingText: React.FC<{ texts: string[] }> = ({ texts }) => {
+  const [textIdx, setTextIdx] = useState(0);
+  const [displayed, setDisplayed] = useState('');
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const target = texts[textIdx];
+    const speed = deleting ? 40 : 80;
+    const timeout = setTimeout(() => {
+      if (!deleting && displayed.length < target.length) {
+        setDisplayed(target.slice(0, displayed.length + 1));
+      } else if (!deleting && displayed === target) {
+        setTimeout(() => setDeleting(true), 1800);
+      } else if (deleting && displayed.length > 0) {
+        setDisplayed(displayed.slice(0, -1));
+      } else if (deleting && displayed.length === 0) {
+        setDeleting(false);
+        setTextIdx((textIdx + 1) % texts.length);
+      }
+    }, speed);
+    return () => clearTimeout(timeout);
+  }, [displayed, deleting, textIdx, texts]);
+
+  return (
+    <span className="text-neon-amber" style={{ textShadow: '0 0 10px rgba(255,170,0,0.5)' }}>
+      {displayed}
+      <span className="animate-blink">|</span>
+    </span>
+  );
+};
 
 const Hero: React.FC = () => {
-    return (
-        <section id="hero" className="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden">
+  const scrollToContact = () => {
+    document.getElementById('comms')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-            <div className="max-w-6xl w-full mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+  const container = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.18 } },
+  };
+  const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.33, 1, 0.68, 1] } },
+  };
 
-                {/* Text Content */}
-                <motion.div
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className="font-mono"
-                >
-                    <div className="mb-4 flex items-center gap-2 text-matrix-green text-xs tracking-[0.2em]">
-                        <span className="w-2 h-2 bg-matrix-green rounded-full animate-pulse"></span>
-                        INCOMING TRANSMISSION
-                    </div>
+  return (
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center pb-20"
+      style={{ zIndex: 10 }}
+    >
+      <div className="relative max-w-5xl mx-auto px-6 pt-28 text-center">
+        {/* HUD corner brackets */}
+        <div className="hud-corner hud-corner-inner absolute inset-0 pointer-events-none" />
 
-                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
-                        CAPTAIN <br />
-                        <span className="text-neon-cyan hologram-text">{PROFILE.name.toUpperCase()}</span>
-                    </h1>
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="relative"
+        >
+          {/* System tag */}
+          <motion.div variants={fadeUp} className="mb-6">
+            <span className="section-tag">Captain's Bridge // Initializing...</span>
+          </motion.div>
 
-                    <p className="text-xl text-gray-400 mb-2 font-sans border-l-2 border-neon-cyan pl-4">
-                        {PROFILE.role}
-                    </p>
+          {/* Profile Image with HUD frame */}
+          <motion.div 
+            variants={fadeUp}
+            className="mb-8 relative inline-block group"
+          >
+            <div className="relative w-32 h-32 sm:w-40 h-40 mx-auto">
+              {/* Spinning technical rings */}
+              <div className="absolute inset-[-10px] border border-neon-cyan/20 rounded-full animate-[spin_10s_linear_infinite]" />
+              <div className="absolute inset-[-18px] border border-dashed border-neon-amber/20 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
+              
+              {/* Corner brackets for the image */}
+              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-neon-cyan opacity-60" />
+              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-neon-cyan opacity-60" />
+              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-neon-cyan opacity-60" />
+              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-neon-cyan opacity-60" />
 
-                    <p className="text-gray-500 mb-8 max-w-lg leading-relaxed text-sm">
-                        "{PROFILE.bio}"
-                    </p>
-
-                    <div className="flex flex-wrap gap-4">
-                        <div className="border border-gray-700 bg-black/50 p-3 rounded text-xs text-gray-300">
-                            LOCATION: <span className="text-white">{PROFILE.location}</span>
-                        </div>
-                        <div className="border border-gray-700 bg-black/50 p-3 rounded text-xs text-gray-300">
-                            STATUS: <span className="text-matrix-green">{PROFILE.availability.toUpperCase()}</span>
-                        </div>
-                    </div>
-
-                    <div className="mt-8">
-                        <a
-                            href={PROFILE.github}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="inline-flex items-center gap-2 bg-neon-cyan/10 border border-neon-cyan text-neon-cyan px-6 py-3 hover:bg-neon-cyan hover:text-black transition-all duration-300 font-bold tracking-wider text-sm clip-path-polygon"
-                        >
-                            ACCESS GITHUB_DATABASE
-                        </a>
-                    </div>
-                </motion.div>
-
-                {/* Visual Interface / Hologram */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1 }}
-                    className="relative flex justify-center"
-                >
-                    {/* Holographic Frame */}
-                    <div className="relative w-80 h-80 md:w-96 md:h-96 border border-neon-cyan/30 rounded-full flex items-center justify-center bg-neon-cyan/5 backdrop-blur-sm overflow-hidden group">
-
-                        {/* Spinner Rings */}
-                        <div className="absolute inset-0 rounded-full border-t border-neon-cyan animate-spin duration-[10s]"></div>
-                        <div className="absolute inset-2 rounded-full border-b border-matrix-green animate-spin duration-[15s] opacity-50"></div>
-
-                        {/* Avatar Image */}
-                        <img
-                            src="/profile-pic.png"
-                            alt="Avatar"
-                            className="w-full h-full rounded-full object-cover object-top opacity-90 hover:opacity-100 transition-opacity duration-500"
-                        />
-
-                        {/* Glitch Overlay */}
-                        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwMDAwIiBmaWxsLW9wYWNpdHk9IjAuMSIvPgo8L3N2Zz4=')] opacity-50 pointer-events-none"></div>
-                    </div>
-
-                    {/* Decorators */}
-                    <div className="absolute -bottom-10 font-mono text-[10px] text-neon-cyan/50">
-                        ID: CP-770 // CLASS: ENGINEER
-                    </div>
-                </motion.div>
-
+              <div className="w-full h-full rounded-full overflow-hidden border-2 border-white/10 relative z-10">
+                <img 
+                  src="/captain-ranjith.png" 
+                  alt="Captain Ranjith" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+              </div>
+              
+              {/* Scanning line on image */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neon-cyan/10 to-transparent h-1/2 w-full animate-scanline pointer-events-none z-20" />
             </div>
-        </section>
-    );
+          </motion.div>
+
+          {/* Name with glitch */}
+          <motion.h1
+            variants={fadeUp}
+            className="text-6xl sm:text-8xl font-bold tracking-tight mb-4 animate-glitch"
+            style={{
+              background: 'linear-gradient(135deg, #ffffff 30%, #00f3ff 70%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            {PROFILE.name}
+          </motion.h1>
+
+          {/* Typing role */}
+          <motion.div variants={fadeUp} className="text-xl sm:text-2xl font-mono mb-8 h-8">
+            <TypingText texts={ROLES} />
+          </motion.div>
+
+          {/* Bio */}
+          <motion.p
+            variants={fadeUp}
+            className="max-w-2xl mx-auto text-gray-400 text-base sm:text-lg leading-relaxed mb-12"
+          >
+            {PROFILE.bio}
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-4">
+            <a
+              href="https://github.com/Ranjith1605"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative px-8 py-3 font-mono text-sm tracking-widest uppercase overflow-hidden"
+              style={{
+                background: 'rgba(0,243,255,0.08)',
+                border: '1px solid rgba(0,243,255,0.4)',
+                color: '#00f3ff',
+                transition: 'all 0.3s',
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLElement).style.background = 'rgba(0,243,255,0.18)';
+                (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(0,243,255,0.3), inset 0 0 20px rgba(0,243,255,0.05)';
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLElement).style.background = 'rgba(0,243,255,0.08)';
+                (e.currentTarget as HTMLElement).style.boxShadow = 'none';
+              }}
+            >
+              View Captain's Log (Resume)
+            </a>
+            <button
+              onClick={scrollToContact}
+              className="px-8 py-3 font-mono text-sm tracking-widest uppercase"
+              style={{
+                background: 'rgba(255,170,0,0.1)',
+                border: '1px solid rgba(255,170,0,0.4)',
+                color: '#ffaa00',
+                transition: 'all 0.3s',
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLElement).style.background = 'rgba(255,170,0,0.2)';
+                (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(255,170,0,0.3)';
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLElement).style.background = 'rgba(255,170,0,0.1)';
+                (e.currentTarget as HTMLElement).style.boxShadow = 'none';
+              }}
+            >
+              ⚡ Hail Communication (Contact)
+            </button>
+          </motion.div>
+
+          {/* Scroll indicator */}
+          <motion.div
+            variants={fadeUp}
+            className="mt-16 flex flex-col items-center gap-2 opacity-40"
+          >
+            <span className="font-mono text-xs tracking-widest text-gray-500">SCROLL TO NAVIGATE</span>
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ repeat: Infinity, duration: 1.8 }}
+              className="w-px h-10 bg-gradient-to-b from-neon-cyan to-transparent"
+            />
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
 };
 
 export default Hero;
