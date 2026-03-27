@@ -71,7 +71,7 @@ const drawShip = (ctx: CanvasRenderingContext2D, x: number, y: number, scale: nu
     ctx.beginPath();
     ctx.moveTo(0, -40); ctx.lineTo(0, 20);
     ctx.stroke();
-  } else {
+  } else if (type === 2) {
     // Stealth/Scout Prototype
     ctx.beginPath();
     ctx.moveTo(0, -25); ctx.lineTo(15, 15); 
@@ -84,6 +84,30 @@ const drawShip = (ctx: CanvasRenderingContext2D, x: number, y: number, scale: nu
     ctx.moveTo(0, -25); ctx.lineTo(0, 5);
     ctx.moveTo(-8, 5); ctx.lineTo(8, 5);
     ctx.stroke();
+  } else {
+    // UFO Structure (Guardians Style)
+    // Main saucer
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 22, 6, 0, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+    
+    // Glass energy dome
+    ctx.beginPath();
+    ctx.arc(0, -2, 10, Math.PI, 0);
+    ctx.fillStyle = glowColor + '44';
+    ctx.fill();
+    ctx.strokeStyle = glowColor;
+    ctx.stroke();
+    ctx.fillStyle = '#050a10';
+    
+    // 3 Bottom energy thrusters
+    ctx.fillStyle = glowColor;
+    ctx.beginPath();
+    ctx.arc(-12, 3, 2, 0, Math.PI * 2);
+    ctx.arc(0, 5, 2.5, 0, Math.PI * 2);
+    ctx.arc(12, 3, 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#050a10';
   }
 
   // Visual "lights" (small dots)
@@ -135,7 +159,7 @@ const SpaceBackground: React.FC<Props> = ({ scrollY }) => {
         layer: i < 6 ? 2 : i < 14 ? 1 : 0, // 6 far, 8 mid, 6 near
         speed: 0.2 + Math.random() * 0.3,
         scale: i < 6 ? 0.35 : i < 14 ? 0.6 : 1.0,
-        type: Math.floor(Math.random() * 3),
+        type: Math.floor(Math.random() * 4),
         trail: 0,
       }));
     };

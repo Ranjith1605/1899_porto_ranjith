@@ -167,6 +167,32 @@ const App: React.FC = () => {
               🔗 LinkedIn Profile
             </a>
           </div>
+
+          {/* Floating Emoji Interactions */}
+          <div className="mt-20 flex flex-wrap justify-center items-center gap-8 sm:gap-16 pointer-events-none pb-12">
+            {['🛸', '🦹🏽‍♂️', '👾', '✝️', '🐉', '🚀'].map((emoji, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 50, scale: 0.5, rotate: -20 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+                viewport={{ once: false, margin: "-50px" }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: i * 0.15, 
+                  type: 'spring', 
+                  bounce: 0.5 
+                }}
+                className="text-5xl sm:text-7xl drop-shadow-[0_0_15px_rgba(0,243,255,0.5)] cursor-default pointer-events-auto hover:scale-125 transition-transform"
+              >
+                <motion.div
+                  animate={{ y: [0, -15, 0] }}
+                  transition={{ repeat: Infinity, duration: 3 + Math.random() * 2, ease: "easeInOut" }}
+                >
+                  {emoji}
+                </motion.div>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         <Footer />
