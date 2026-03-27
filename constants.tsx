@@ -5,7 +5,7 @@ export const PROFILE = {
   role: 'Strategic AI Developer | Digital Business Visionary',
   bio: 'Bridging the gap between raw technological power and operational excellence. From serving in high-pressure gastronomy to founding an AI cybersecurity startup and optimizing digital workflows. Currently seeking the perfect coordinates for my Master Thesis.',
   email: '007ranjithr.v@gmail.com',
-  linkedin: 'https://www.linkedin.com/in/ranjithramadass',
+  linkedin: 'https://www.linkedin.com/in/ranjith-ramadass-1591a819a',
   github: 'https://github.com/Ranjith1605',
   availability: 'Open to Collaborate',
 };
