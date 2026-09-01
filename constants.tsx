@@ -1,5 +1,26 @@
 import { SkillCategory, Experience, Project, Education, CurrentStatus, NavItem } from './types';
 
+/**
+ * The hero portrait. Swapping the photo is a one-line change here.
+ *
+ * `fit`:
+ *   'cover'   — the image fills the circle; edges are cropped. Best for a
+ *               head-and-shoulders photo. Use `position` to choose what stays centred.
+ *   'contain' — the WHOLE image sits inside the circle, nothing cropped. Use this
+ *               for a full-body shot where the pose and hands must stay visible
+ *               (the WhatsApp-DP look).
+ *
+ * Source quality note: a crisp result needs roughly 1200x1600px or larger.
+ * The current file was recovered from the CV PDF and is only ~350x430px of real
+ * detail, which is why it softens when enlarged.
+ */
+export const PHOTO = {
+  src: '/ranjith-profile.jpg',
+  fit: 'cover' as 'cover' | 'contain',
+  position: '50% 22%',
+  alt: 'Ranjith Ramadass',
+};
+
 export const PROFILE = {
   name: 'Ranjith Ramadass',
   role: 'AI Integration Specialist | AI Project Manager & Developer',

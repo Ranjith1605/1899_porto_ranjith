@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Github, Linkedin, Maximize2 } from 'lucide-react';
-import { PROFILE } from '../constants';
+import { PROFILE, PHOTO } from '../constants';
 import Portal from './Portal';
 
 const ROLES = [
@@ -11,8 +11,6 @@ const ROLES = [
   'Founder of CipherPolice',
   'EU AI Act Researcher',
 ];
-
-const PHOTO_SRC = '/ranjith-profile.jpg';
 
 const TypingText: React.FC<{ texts: string[] }> = ({ texts }) => {
   const [textIdx, setTextIdx] = useState(0);
@@ -83,10 +81,10 @@ const Hero: React.FC = () => {
 
             <div className="photo-circle relative">
               <img
-                src={PHOTO_SRC}
-                alt="Ranjith Ramadass"
-                className="w-full h-full rounded-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                style={{ objectPosition: '50% 22%' }}
+                src={PHOTO.src}
+                alt={PHOTO.alt}
+                className="w-full h-full rounded-full transition-transform duration-700 group-hover:scale-[1.04]"
+                style={{ objectFit: PHOTO.fit, objectPosition: PHOTO.position }}
               />
               {/* Sweep highlight on hover */}
               <div className="photo-sweep" aria-hidden />
@@ -215,7 +213,7 @@ const Hero: React.FC = () => {
         details={{ story: [PROFILE.bio], links: [{ label: 'LinkedIn', url: PROFILE.linkedin }, { label: 'GitHub', url: PROFILE.github }] }}
       >
         <div className="rounded-sm overflow-hidden" style={{ border: '1px solid rgba(0,243,255,0.25)', background: '#020206' }}>
-          <img src={PHOTO_SRC} alt="Ranjith Ramadass, full portrait" className="block w-full h-auto max-h-[70vh] object-contain mx-auto" />
+          <img src={PHOTO.src} alt={`${PHOTO.alt}, full portrait`} className="block w-full h-auto max-h-[70vh] object-contain mx-auto" />
         </div>
       </Portal>
     </section>
