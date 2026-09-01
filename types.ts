@@ -1,6 +1,5 @@
 export interface Skill {
   name: string;
-  icon?: string;
 }
 
 export interface SkillCategory {
@@ -9,22 +8,18 @@ export interface SkillCategory {
   skills: Skill[];
 }
 
-/** A link shown at the bottom of a portal. */
 export interface PortalLink {
   label: string;
   url: string;
 }
 
 /**
- * Everything a card reveals when it is opened as a portal.
- * Cards stay minimal on the page; the portal carries the full story.
+ * Everything a card reveals when opened as a portal.
+ * Cards stay minimal on the page; the portal carries the detail.
  */
 export interface PortalDetails {
-  /** One-sentence framing shown first, in larger type. */
   headline?: string;
-  /** Paragraphs, in order. */
   story?: string[];
-  /** "What I did" bullets. */
   highlights?: string[];
   links?: PortalLink[];
 }
@@ -61,7 +56,6 @@ export interface CurrentStatus {
   role: string;
   institution: string;
   detail: string;
-  icon: string;
   color: 'cyan' | 'amber' | 'green';
   details?: PortalDetails;
 }

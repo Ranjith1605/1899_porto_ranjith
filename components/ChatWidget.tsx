@@ -16,7 +16,7 @@ interface BookingData {
 const CommsLink: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'model', text: "CipherBot Online. I can assist you with **Appointment Booking** or providing **Contact Information**. How may I help?", timestamp: Date.now() }
+    { role: 'model', text: "Hi — I can share **contact details** or help you **book a call** with Ranjith. What do you need?", timestamp: Date.now() }
   ]);
   const [input, setInput] = useState('');
   const [isThinking, setIsThinking] = useState(false);
@@ -49,7 +49,7 @@ const CommsLink: React.FC = () => {
     if (lowerInput === 'cancel' || lowerInput === 'reset') {
       setChatState('IDLE');
       setBookingData({});
-      addMessage('model', "Operation cancelled. Returning to main menu.\n\nOptions:\n- **Book Appointment**\n- **Contact Info**");
+      addMessage('model', "No problem, starting over.\n\nI can help with:\n- **Book a call**\n- **Contact details**");
       setIsThinking(false);
       return;
     }
@@ -58,19 +58,19 @@ const CommsLink: React.FC = () => {
       case 'IDLE':
         if (lowerInput.includes('book') || lowerInput.includes('appointment') || lowerInput.includes('schedule')) {
           setChatState('BOOKING_DATE');
-          addMessage('model', "Initiating Appointment Protocol.\n\nPlease enter your preferred **Date** (e.g., 'Tomorrow', 'Next Monday', or 'Oct 25').");
+          addMessage('model', "Sure. What **date** works for you? (e.g. 'Tomorrow', 'Next Monday', or 'Oct 25')");
         } else if (lowerInput.includes('contact') || lowerInput.includes('reach') || lowerInput.includes('email') || lowerInput.includes('phone')) {
-          addMessage('model', `Accessing Contact Database...\n\n**Email**: ${PROFILE.email}\n**LinkedIn**: ${PROFILE.linkedin}\n**GitHub**: ${PROFILE.github}\n**Location**: ${PROFILE.location}\n\n${PROFILE.availability}. Is there anything else?`);
+          addMessage('model', `Here you go.\n\n**Email**: ${PROFILE.email}\n**LinkedIn**: ${PROFILE.linkedin}\n**GitHub**: ${PROFILE.github}\n**Location**: ${PROFILE.location}\n\n${PROFILE.availability}. Is there anything else?`);
         } else if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
-          addMessage('model', "Greetings. I am CipherBot. I can help you **Book an Appointment** or find **Contact Info**.");
+          addMessage('model', "Hello. I can help you **book a call** or find **contact details**.");
         } else {
-          addMessage('model', "Command not recognized. Please specify:\n- **Book Appointment**\n- **Contact Info**");
+          addMessage('model', "I only handle two things here — **book a call** or **contact details**. Which one?");
         }
         break;
 
       case 'BOOKING_DATE':
         if (userInput.length < 3) {
-          addMessage('model', "Error: Date ambiguous. Please enter a valid date (e.g., 'Monday', '12th Oct').");
+          addMessage('model', "I didn\'t catch that date — try something like 'Monday' or '12 Oct'.");
         } else {
           setBookingData(prev => ({ ...prev, date: userInput }));
           setChatState('BOOKING_TIME');
@@ -85,7 +85,7 @@ const CommsLink: React.FC = () => {
           addMessage('model', `Time slot selected: ${userInput}.\n\nPlease enter your **Name** for the reservation.`);
         } else {
           // Loop clause for invalid time
-          addMessage('model', "Invalid Time Slot. Please choose from available slots:\n- 10:00 AM\n- 02:00 PM\n- 04:00 PM");
+          addMessage('model', "That slot isn\'t available. Please pick one of:\n- 10:00\n- 14:00\n- 16:00");
         }
         break;
 
@@ -97,11 +97,11 @@ const CommsLink: React.FC = () => {
 
       case 'CONFIRM_BOOKING':
         if (lowerInput === 'yes' || lowerInput === 'y' || lowerInput === 'confirm') {
-          addMessage('model', "Appointment Confirmed! ✅\n\nA calendar invite has been transmitted to your neural link (simulated). Thank you.");
+          addMessage('model', "Noted ✅ — this is a demo form, so please also send the details to the email above and Ranjith will confirm.");
           setChatState('IDLE');
           setBookingData({});
         } else {
-          addMessage('model', "Booking aborted. Returning to start.");
+          addMessage('model', "Cancelled — starting over.");
           setChatState('IDLE');
           setBookingData({});
         }

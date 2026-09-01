@@ -78,6 +78,39 @@ body {
   opacity: 0.7;
 }
 
+/* Screen-reader-only text that stays reachable on focus. */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Two-line clamp for card summaries. */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Soft ring that breathes around the audio button while the drone plays. */
+.om-pulse {
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 243, 255, 0.35);
+  animation: om-breathe 4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes om-breathe {
+  0%, 100% { transform: scale(1);    opacity: 0.7; }
+  50%      { transform: scale(1.16); opacity: 0.1; }
+}
+
 /* ---------- portals (click-to-open detail cards) ---------- */
 .portal-card {
   position: relative;
@@ -189,7 +222,7 @@ body {
   html { scroll-behavior: auto; }
   .animate-glitch, .animate-scanline, .animate-flicker, .animate-float,
   .animate-hud-border, .animate-pulse-slow,
-  .photo-ring-outer, .photo-ring-inner {
+  .photo-ring-outer, .photo-ring-inner, .om-pulse {
     animation: none !important;
   }
   .photo-sweep { transition: none; }

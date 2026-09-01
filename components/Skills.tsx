@@ -1,86 +1,53 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { SKILL_CATEGORIES } from '../constants';
+import Section from './Section';
 
-const variantClasses = {
-  cyan: 'skill-pill',
-  amber: 'amber-pill',
-  green: 'green-pill',
+const COLORS = {
+  cyan: '#00f3ff',
+  amber: '#ffaa00',
+  green: '#39FF14',
 };
 
-const variantColors = {
-  cyan: { border: 'rgba(0,243,255,0.2)', text: '#9ecfdb', active: '#00f3ff', header: '#00f3ff' },
-  amber: { border: 'rgba(255,170,0,0.2)', text: '#dbc48e', active: '#ffaa00', header: '#ffaa00' },
-  green: { border: 'rgba(57,255,20,0.2)', text: '#8ecf9e', active: '#39FF14', header: '#39FF14' },
-};
-
-const Skills: React.FC = () => {
-  return (
-    <section id="arsenal" className="relative py-28 px-6" style={{ zIndex: 10 }}>
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-16 text-center"
-        >
-          <span className="section-tag block mb-3">Arsenal // Capabilities Loaded</span>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white">
-            The Captain's <span className="amber-glow text-neon-amber">Arsenal</span>
-          </h2>
-        </motion.div>
-
-        <div className="space-y-14">
-          {SKILL_CATEGORIES.map((cat, ci) => {
-            const colors = variantColors[cat.variant];
-            const pill = variantClasses[cat.variant];
-            return (
-              <motion.div
-                key={ci}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: ci * 0.1 }}
-              >
-                {/* Category label */}
-                <div className="flex items-center gap-4 mb-6">
-                  <span className="font-mono text-xs tracking-widest uppercase" style={{ color: colors.header }}>
-                    ── {cat.title}
-                  </span>
-                  <div className="flex-1 h-px" style={{ background: `linear-gradient(to right, ${colors.header}44, transparent)` }} />
-                </div>
-
-                {/* Pill cloud */}
-                <div className="flex flex-wrap gap-3">
-                  {cat.skills.map((skill, si) => (
-                    <motion.span
-                      key={si}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: si * 0.05 }}
-                      whileHover={{ y: -3, scale: 1.05 }}
-                      className={`${pill} px-4 py-2 text-sm font-mono rounded-sm cursor-default transition-all duration-200`}
-                      style={{
-                        background: 'rgba(255,255,255,0.03)',
-                        border: `1px solid ${colors.border}`,
-                        color: colors.text,
-                        backdropFilter: 'blur(8px)',
-                      }}
-                    >
-                      {skill.name}
-                    </motion.span>
-                  ))}
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-};
+const Skills: React.FC = () => (
+  <Section
+    id="skills"
+    eyebrow="04 — Skills"
+    title="Skills"
+    lead="Grouped the way my CV groups them."
+    width="narrow"
+  >
+    <div className="space-y-8">
+      {SKILL_CATEGORIES.map((cat, i) => {
+        const accent = COLORS[cat.variant];
+        return (
+          <motion.div
+            key={cat.title}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.45, delay: i * 0.06 }}
+            className="grid grid-cols-1 sm:grid-cols-[130px_1fr] gap-2 sm:gap-6"
+          >
+            <p className="font-mono text-xs tracking-widest uppercase pt-1" style={{ color: accent, opacity: 0.85 }}>
+              {cat.title}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {cat.skills.map(s => (
+                <span
+                  key={s.name}
+                  className="px-3 py-1.5 rounded-md font-mono text-[12px] text-gray-300 transition-colors duration-200"
+                  style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
+                >
+                  {s.name}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
+  </Section>
+);
 
 export default Skills;
