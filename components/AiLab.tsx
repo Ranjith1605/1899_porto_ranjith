@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { EDUCATION } from '../constants';
+import { EDUCATION, CERTIFICATES, LANGUAGES } from '../constants';
 
 const Academy: React.FC = () => {
   return (
@@ -65,6 +65,37 @@ const Academy: React.FC = () => {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
+          <div className="glass-card rounded-sm p-6" style={{ borderLeft: '3px solid rgba(255,170,0,0.4)' }}>
+            <span className="section-tag block mb-4">Certifications</span>
+            <ul className="space-y-2">
+              {CERTIFICATES.map(cert => (
+                <li key={cert} className="text-sm text-gray-400 flex items-start gap-2">
+                  <span className="text-neon-amber font-mono text-xs mt-1">▸</span>
+                  <span>{cert}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="glass-card rounded-sm p-6" style={{ borderLeft: '3px solid rgba(57,255,20,0.4)' }}>
+            <span className="section-tag block mb-4">Languages</span>
+            <ul className="space-y-2">
+              {LANGUAGES.map(lang => (
+                <li key={lang.name} className="text-sm text-gray-400 flex items-center justify-between">
+                  <span>{lang.name}</span>
+                  <span className="font-mono text-xs text-hud-green">{lang.level}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

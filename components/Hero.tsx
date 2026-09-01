@@ -3,10 +3,11 @@ import { motion } from 'framer-motion';
 import { PROFILE } from '../constants';
 
 const ROLES = [
-  'Strategic AI Developer',
+  'AI Integration Specialist',
+  'AI Project Manager & Developer',
+  'Building Projkt 360°',
   'Founder of CipherPolice',
-  'Digital Business Visionary',
-  'AI & Sustainability Researcher',
+  'EU AI Act Researcher',
 ];
 
 const TypingText: React.FC<{ texts: string[] }> = ({ texts }) => {
@@ -92,10 +93,10 @@ const Hero: React.FC = () => {
               <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-neon-cyan opacity-60" />
 
               <div className="w-full h-full rounded-full overflow-hidden border-2 border-white/10 relative z-10">
-                <img 
-                  src="/captain-ranjith.png" 
-                  alt="Captain Ranjith" 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                <img
+                  src="/ranjith-profile.png"
+                  alt="Ranjith Ramadass — AI Integration Specialist"
+                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
               

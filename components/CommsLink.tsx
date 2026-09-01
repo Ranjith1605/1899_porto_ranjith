@@ -3,6 +3,7 @@ import { ChatMessage } from '../types';
 import { MessageSquare, X, Send, Minimize2, Calendar, Mail, User, Clock, CheckCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
+import { PROFILE } from '../constants';
 
 type ChatState = 'IDLE' | 'BOOKING_DATE' | 'BOOKING_TIME' | 'CONFIRM_BOOKING' | 'NAME_INPUT';
 
@@ -59,7 +60,7 @@ const CommsLink: React.FC = () => {
           setChatState('BOOKING_DATE');
           addMessage('model', "Initiating Appointment Protocol.\n\nPlease enter your preferred **Date** (e.g., 'Tomorrow', 'Next Monday', or 'Oct 25').");
         } else if (lowerInput.includes('contact') || lowerInput.includes('reach') || lowerInput.includes('email') || lowerInput.includes('phone')) {
-          addMessage('model', "Accessing Contact Database...\n\n**Email**: ranjith@example.com\n**LinkedIn**: linkedin.com/in/ranjith\n**GitHub**: github.com/ranjith\n\nIs there anything else?");
+          addMessage('model', `Accessing Contact Database...\n\n**Email**: ${PROFILE.email}\n**LinkedIn**: ${PROFILE.linkedin}\n**GitHub**: ${PROFILE.github}\n**Location**: ${PROFILE.location}\n\n${PROFILE.availability}. Is there anything else?`);
         } else if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
           addMessage('model', "Greetings. I am CipherBot. I can help you **Book an Appointment** or find **Contact Info**.");
         } else {

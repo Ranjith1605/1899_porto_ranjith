@@ -42,11 +42,11 @@ const CurrentCoordinates: React.FC = () => {
           <h2 className="text-4xl sm:text-5xl font-bold text-white">
             Current <span className="hologram-text text-neon-cyan">Coordinates</span>
           </h2>
-          <p className="text-gray-500 mt-4 font-mono text-sm">[ 3 ACTIVE MISSIONS — ALL SYSTEMS NOMINAL ]</p>
+          <p className="text-gray-500 mt-4 font-mono text-sm">[ {CURRENT_COORDINATES.length} ACTIVE MISSIONS — ALL SYSTEMS NOMINAL ]</p>
         </motion.div>
 
         {/* Coordinate Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           {CURRENT_COORDINATES.map((coord, i) => {
             const colors = colorMap[coord.color];
             return (
