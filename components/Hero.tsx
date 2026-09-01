@@ -135,7 +135,7 @@ const Hero: React.FC = () => {
             <div className="photo-ring photo-ring-inner" aria-hidden />
             <div className="photo-circle relative">
               <img
-                src={PHOTO.src}
+                src={PHOTO.avatar}
                 alt={PHOTO.alt}
                 className="w-full h-full rounded-full transition-transform duration-700 group-hover:scale-[1.04]"
                 style={{ objectFit: PHOTO.fit, objectPosition: PHOTO.position }}
@@ -181,7 +181,7 @@ const Hero: React.FC = () => {
         }}
       >
         <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(0,243,255,0.22)', background: '#020206' }}>
-          <img src={PHOTO.src} alt={`${PHOTO.alt}, full portrait`} className="block w-full h-auto max-h-[68vh] object-contain mx-auto" />
+          <img src={PHOTO.full} alt={`${PHOTO.alt}, full portrait`} className="block w-full h-auto max-h-[68vh] object-contain mx-auto" />
         </div>
       </Portal>
     </section>

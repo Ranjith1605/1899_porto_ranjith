@@ -19,6 +19,100 @@ interface Meteor {
   x: number; y: number; len: number; speed: number; angle: number; life: number; maxLife: number;
 }
 
+interface Ship {
+  x: number;          // px, wraps across the width
+  y: number;          // 0..1 of height
+  scale: number;      // 0.5 far … 1.2 near
+  speed: number;      // px per frame, leftward
+  depth: number;      // parallax factor against scroll
+  blink: number;      // navigation-light phase
+}
+
+/**
+ * A distant craft, drawn in profile.
+ *
+ * Deliberately small and mostly silhouette: at this size the eye reads
+ * proportion, rim light and engine bloom, and fills in the rest. The previous
+ * version drew big detailed hulls up close, which is exactly when a canvas
+ * drawing stops looking like a photograph and starts looking like clip art.
+ */
+const drawShip = (ctx: CanvasRenderingContext2D, x: number, y: number, s: number, blink: number) => {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(s, s);
+
+  // Engine bloom first, so the hull sits on top of it.
+  const bloom = ctx.createRadialGradient(30, 0, 0, 30, 0, 26);
+  bloom.addColorStop(0, 'rgba(150,235,255,0.85)');
+  bloom.addColorStop(0.25, 'rgba(60,190,255,0.35)');
+  bloom.addColorStop(1, 'rgba(60,190,255,0)');
+  ctx.fillStyle = bloom;
+  ctx.beginPath();
+  ctx.arc(30, 0, 26, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Exhaust trail, tapering away behind.
+  const trail = ctx.createLinearGradient(28, 0, 132, 0);
+  trail.addColorStop(0, 'rgba(130,220,255,0.40)');
+  trail.addColorStop(1, 'rgba(130,220,255,0)');
+  ctx.fillStyle = trail;
+  ctx.beginPath();
+  ctx.moveTo(28, -3.2);
+  ctx.lineTo(132, -0.7);
+  ctx.lineTo(132, 0.7);
+  ctx.lineTo(28, 3.2);
+  ctx.closePath();
+  ctx.fill();
+
+  // Hull — a long wedge, nose to the left.
+  ctx.fillStyle = '#0a0f16';
+  ctx.beginPath();
+  ctx.moveTo(-34, 0);        // nose
+  ctx.lineTo(-16, -4.2);
+  ctx.lineTo(20, -5.4);
+  ctx.lineTo(28, -3.4);
+  ctx.lineTo(28, 3.4);
+  ctx.lineTo(20, 5.4);
+  ctx.lineTo(-16, 4.2);
+  ctx.closePath();
+  ctx.fill();
+
+  // Dorsal fin and a ventral pod give it a readable silhouette.
+  ctx.beginPath();
+  ctx.moveTo(6, -5);
+  ctx.lineTo(16, -13);
+  ctx.lineTo(24, -12.6);
+  ctx.lineTo(24, -5);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(2, 6.4, 11, 3, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Rim light along the top edge — the single cue that sells solidity.
+  ctx.strokeStyle = 'rgba(150,205,255,0.5)';
+  ctx.lineWidth = 0.9;
+  ctx.beginPath();
+  ctx.moveTo(-33, -0.6);
+  ctx.lineTo(-16, -4.2);
+  ctx.lineTo(20, -5.4);
+  ctx.stroke();
+
+  // Engine mouth.
+  ctx.fillStyle = 'rgba(190,245,255,0.95)';
+  ctx.fillRect(26, -2.6, 3.4, 5.2);
+
+  // Navigation light, blinking slowly.
+  if (blink > 0.72) {
+    ctx.fillStyle = 'rgba(255,120,120,0.95)';
+    ctx.beginPath();
+    ctx.arc(16, -13, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.restore();
+};
+
 /**
  * Deep-space background.
  *
@@ -34,6 +128,7 @@ const SpaceBackground: React.FC<Props> = ({ scrollY }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const starsRef = useRef<Star[]>([]);
   const meteorsRef = useRef<Meteor[]>([]);
+  const shipsRef = useRef<Ship[]>([]);
   const frameRef = useRef<number>(0);
   const scrollRef = useRef(0);
 
@@ -86,6 +181,15 @@ const SpaceBackground: React.FC<Props> = ({ scrollY }) => {
           hue: STAR_HUES[Math.floor(Math.random() * STAR_HUES.length)],
         };
       });
+    };
+
+    const initShips = () => {
+      // Two craft at different distances, kept out of the vertical band where
+      // the hero text sits so they never compete with the copy.
+      shipsRef.current = [
+        { x: W * 0.15, y: 0.16, scale: 0.55, speed: 0.10, depth: 0.020, blink: 0 },
+        { x: W * 0.72, y: 0.80, scale: 0.90, speed: 0.17, depth: 0.045, blink: Math.PI },
+      ];
     };
 
     const spawnMeteor = () => {
@@ -190,6 +294,17 @@ const SpaceBackground: React.FC<Props> = ({ scrollY }) => {
         });
       }
 
+      // Ships — slow leftward drift, wrapping; parallax by depth against scroll.
+      for (const sh of shipsRef.current) {
+        if (!reduceMotion) sh.x -= sh.speed;
+        const wrapW = W + 260;
+        let x = ((sh.x + 130) % wrapW + wrapW) % wrapW - 130;
+        let y = (sh.y * H - scroll * sh.depth) % H;
+        if (y < 0) y += H;
+        sh.blink = (sh.blink + 0.02) % (Math.PI * 2);
+        drawShip(ctx, x, y, sh.scale, (Math.sin(sh.blink) + 1) / 2);
+      }
+
       drawVignette();
 
       t += 1;
@@ -203,10 +318,11 @@ const SpaceBackground: React.FC<Props> = ({ scrollY }) => {
     const stop = () => cancelAnimationFrame(frameRef.current);
 
     const onVisibility = () => (document.hidden ? stop() : start());
-    const onResize = () => { resize(); initStars(); };
+    const onResize = () => { resize(); initStars(); initShips(); };
 
     resize();
     initStars();
+    initShips();
     start();
 
     window.addEventListener('resize', onResize);

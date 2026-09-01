@@ -1,20 +1,24 @@
 import { SkillCategory, Experience, Project, Education, CurrentStatus, NavItem } from './types';
 
 /**
- * The hero portrait. Swapping the photo is a one-line change here.
+ * The portrait, in two forms.
  *
- * `fit`:
- *   'cover'   — fills the circle, edges cropped. Right for head-and-shoulders.
- *   'contain' — the WHOLE image inside the circle, nothing cropped. Right for a
- *               full-body shot where the pose and hands must stay visible.
+ * `avatar` is a 1600x1600 square built for the hero circle: the head sits dead
+ * centre, and the photo is padded out with its own blurred background so the
+ * circular crop never clips the hair or chin. The source photo has almost no
+ * margin around the head, so without that padding a circle always cut into it.
  *
- * A crisp 420px circle wants a source of ~1200x1600px or larger.
- * See public/PHOTO_README.md.
+ * `full` is the unpadded portrait, shown in the "view full photo" panel.
+ *
+ * Swapping either is a one-line change. See public/PHOTO_README.md.
  */
 export const PHOTO = {
-  src: '/ranjith-profile.jpg',
+  avatar: '/ranjith-avatar.jpg',
+  full: '/ranjith-profile.jpg',
+  /** 'cover' fills the circle; 'contain' fits the whole square inside it. */
   fit: 'cover' as 'cover' | 'contain',
-  position: '50% 20%',
+  /** The avatar is already centred, so this stays at dead centre. */
+  position: '50% 50%',
   alt: 'Ranjith Ramadass',
 };
 

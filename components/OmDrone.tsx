@@ -181,7 +181,7 @@ const SpaceAudio: React.FC = () => {
         style={{ color: playing ? 'rgba(0,243,255,0.65)' : 'rgba(139,150,165,0.55)', opacity: playing || armed ? 1 : 0 }}
         aria-hidden
       >
-        {playing ? 'ॐ 136.1 Hz' : 'ॐ'}
+        {playing ? 'ௐ 136.1 Hz' : 'ௐ'}
       </span>
     </div>
   );
