@@ -5,7 +5,7 @@ export const PROFILE = {
   role: 'AI Integration Specialist | AI Project Manager & Developer',
   bio: 'I integrate the latest AI models into real products and workflows — seamlessly, and with deep research behind every decision. Based in Hannover, Germany, I have led an AI product end-to-end for 10 months (concept to working build) and shipped LLM automations into production. Master\'s thesis: the human-centred, EU AI Act-aligned introduction of AI projects in public and private organisations. Currently building Projkt 360° and CipherPolice — and open to AI development work.',
   location: 'Hannover, Germany',
-  email: 'ranjithrv1605@gmail.com',
+  email: '007ranjithr.v@gmail.com',
   linkedin: 'https://www.linkedin.com/in/ranjith-ramadass-1591a819a',
   github: 'https://github.com/Ranjith1605',
   availability: 'Open to AI development roles & projects',
