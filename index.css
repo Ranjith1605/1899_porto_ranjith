@@ -121,8 +121,8 @@ body {
 
 /* ---------- hero portrait: WhatsApp-DP style circle ---------- */
 .photo-circle {
-  width: clamp(230px, 62vw, 400px);
-  height: clamp(230px, 62vw, 400px);
+  width: clamp(240px, 64vw, 420px);
+  height: clamp(240px, 64vw, 420px);
   border-radius: 9999px;
   overflow: hidden;
   border: 3px solid rgba(0, 243, 255, 0.55);
@@ -151,14 +151,14 @@ body {
   transform: translate(-50%, -50%);
 }
 .photo-ring-outer {
-  width: calc(clamp(230px, 62vw, 400px) + 56px);
-  height: calc(clamp(230px, 62vw, 400px) + 56px);
+  width: calc(clamp(240px, 64vw, 420px) + 56px);
+  height: calc(clamp(240px, 64vw, 420px) + 56px);
   border: 1px dashed rgba(255, 170, 0, 0.28);
   animation: spin-slow 22s linear infinite;
 }
 .photo-ring-inner {
-  width: calc(clamp(230px, 62vw, 400px) + 26px);
-  height: calc(clamp(230px, 62vw, 400px) + 26px);
+  width: calc(clamp(240px, 64vw, 420px) + 26px);
+  height: calc(clamp(240px, 64vw, 420px) + 26px);
   border: 1px solid rgba(0, 243, 255, 0.22);
   animation: spin-slow 14s linear infinite reverse;
 }
