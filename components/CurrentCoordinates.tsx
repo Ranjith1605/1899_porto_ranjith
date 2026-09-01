@@ -1,105 +1,95 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 import { CURRENT_COORDINATES } from '../constants';
+import Portal from './Portal';
 
 const colorMap = {
-  cyan: {
-    bg: 'rgba(0,243,255,0.05)',
-    border: 'rgba(0,243,255,0.25)',
-    dot: '#00f3ff',
-    glow: 'rgba(0,243,255,0.3)',
-    text: '#00f3ff',
-  },
-  amber: {
-    bg: 'rgba(255,170,0,0.05)',
-    border: 'rgba(255,170,0,0.25)',
-    dot: '#ffaa00',
-    glow: 'rgba(255,170,0,0.3)',
-    text: '#ffaa00',
-  },
-  green: {
-    bg: 'rgba(57,255,20,0.05)',
-    border: 'rgba(57,255,20,0.25)',
-    dot: '#39FF14',
-    glow: 'rgba(57,255,20,0.3)',
-    text: '#39FF14',
-  },
+  cyan: { accent: '#00f3ff', bg: 'rgba(0,243,255,0.04)' },
+  amber: { accent: '#ffaa00', bg: 'rgba(255,170,0,0.04)' },
+  green: { accent: '#39FF14', bg: 'rgba(57,255,20,0.04)' },
 };
 
 const CurrentCoordinates: React.FC = () => {
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const selected = openIdx === null ? null : CURRENT_COORDINATES[openIdx];
+
   return (
-    <section id="coordinates" className="relative py-28 px-6" style={{ zIndex: 10 }}>
+    <section id="coordinates" className="relative py-24 px-6" style={{ zIndex: 10 }}>
       <div className="max-w-6xl mx-auto">
-        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-16 text-center"
+          className="mb-12 text-center"
         >
           <span className="section-tag block mb-3">Current Coordinates // Live Status</span>
           <h2 className="text-4xl sm:text-5xl font-bold text-white">
             Current <span className="hologram-text text-neon-cyan">Coordinates</span>
           </h2>
-          <p className="text-gray-500 mt-4 font-mono text-sm">[ {CURRENT_COORDINATES.length} ACTIVE MISSIONS — ALL SYSTEMS NOMINAL ]</p>
+          <p className="text-gray-500 mt-4 font-mono text-sm">
+            [ {CURRENT_COORDINATES.length} ACTIVE MISSIONS — CLICK ANY CARD TO OPEN ITS PORTAL ]
+          </p>
         </motion.div>
 
-        {/* Coordinate Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           {CURRENT_COORDINATES.map((coord, i) => {
             const colors = colorMap[coord.color];
             return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 40 }}
+              <motion.button
+                type="button"
+                key={coord.institution + coord.role}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.15 }}
-                whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-                className="relative p-6 rounded-sm"
-                style={{
-                  background: colors.bg,
-                  border: `1px solid ${colors.border}`,
-                  backdropFilter: 'blur(12px)',
-                }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                onClick={() => setOpenIdx(i)}
+                className="portal-card rounded-sm p-6 flex flex-col"
+                style={{ ['--portal-accent' as string]: colors.accent, background: colors.bg }}
+                aria-haspopup="dialog"
               >
-                {/* Corner accents */}
-                <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2" style={{ borderColor: colors.dot }} />
-                <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2" style={{ borderColor: colors.dot }} />
-                <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2" style={{ borderColor: colors.dot }} />
-                <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2" style={{ borderColor: colors.dot }} />
+                <span className="portal-corner tl" />
+                <span className="portal-corner tr" />
+                <span className="portal-corner bl" />
+                <span className="portal-corner br" />
 
-                {/* Status dot + icon */}
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-2xl">{coord.icon}</span>
-                  <div className="flex items-center gap-2">
-                    <motion.div
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-2xl" aria-hidden>{coord.icon}</span>
+                  <span className="flex items-center gap-2 font-mono text-[10px] tracking-widest" style={{ color: colors.accent }}>
+                    <motion.span
                       animate={{ opacity: [1, 0.2, 1] }}
-                      transition={{ repeat: Infinity, duration: 1.4 }}
-                      className="w-2 h-2 rounded-full"
-                      style={{ background: colors.dot, boxShadow: `0 0 6px ${colors.glow}` }}
+                      transition={{ repeat: Infinity, duration: 1.6 }}
+                      className="w-1.5 h-1.5 rounded-full"
+                      style={{ background: colors.accent, boxShadow: `0 0 6px ${colors.accent}` }}
                     />
-                    <span className="font-mono text-xs tracking-widest uppercase" style={{ color: colors.text }}>
-                      ACTIVE
-                    </span>
-                  </div>
+                    ACTIVE
+                  </span>
                 </div>
 
-                {/* Role */}
-                <h3 className="font-bold text-white text-base mb-1 leading-snug">{coord.role}</h3>
-                {/* Institution */}
-                <p className="font-mono text-xs mb-4" style={{ color: colors.text }}>{coord.institution}</p>
-                {/* Detail */}
-                <p className="text-gray-400 text-sm leading-relaxed">{coord.detail}</p>
+                <h3 className="font-bold text-white text-base leading-snug mb-1">{coord.role}</h3>
+                <p className="font-mono text-xs mb-3" style={{ color: colors.accent }}>{coord.institution}</p>
+                <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">{coord.detail}</p>
 
-                {/* HUD line at bottom */}
-                <div className="mt-6 h-px" style={{ background: `linear-gradient(to right, ${colors.dot}44, transparent)` }} />
-              </motion.div>
+                <span className="portal-open mt-5 inline-flex items-center gap-1 font-mono text-[10px] tracking-widest" style={{ color: colors.accent }}>
+                  OPEN PORTAL <ArrowUpRight size={12} />
+                </span>
+              </motion.button>
             );
           })}
         </div>
       </div>
+
+      <Portal
+        open={selected !== null}
+        onClose={() => setOpenIdx(null)}
+        tag="// Current mission"
+        title={selected?.role ?? ''}
+        subtitle={selected?.institution}
+        accent={selected ? colorMap[selected.color].accent : undefined}
+        description={selected?.detail}
+        details={selected?.details}
+      />
     </section>
   );
 };

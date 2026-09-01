@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Mail, Github, Linkedin, Maximize2 } from 'lucide-react';
 import { PROFILE } from '../constants';
+import Portal from './Portal';
 
 const ROLES = [
   'AI Integration Specialist',
-  'AI Project Manager & Developer',
+  'AI Developer @ Yoga Vidya',
   'Building Projkt 360°',
   'Founder of CipherPolice',
   'EU AI Act Researcher',
 ];
+
+const PHOTO_SRC = '/ranjith-profile.jpg';
 
 const TypingText: React.FC<{ texts: string[] }> = ({ texts }) => {
   const [textIdx, setTextIdx] = useState(0);
@@ -41,74 +45,90 @@ const TypingText: React.FC<{ texts: string[] }> = ({ texts }) => {
   );
 };
 
-const Hero: React.FC = () => {
-  const scrollToContact = () => {
-    document.getElementById('comms')?.scrollIntoView({ behavior: 'smooth' });
-  };
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.14 } },
+};
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+};
 
-  const container = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.18 } },
-  };
-  const fadeUp = {
-    hidden: { opacity: 0, y: 30 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.33, 1, 0.68, 1] } },
-  };
+const Hero: React.FC = () => {
+  const [photoOpen, setPhotoOpen] = useState(false);
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center pb-20"
+      className="relative min-h-screen flex items-center pt-24 pb-16 px-6"
       style={{ zIndex: 10 }}
     >
-      <div className="relative max-w-5xl mx-auto px-6 pt-28 text-center">
-        {/* HUD corner brackets */}
-        <div className="hud-corner hud-corner-inner absolute inset-0 pointer-events-none" />
+      <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-16 items-center">
+        {/* ---------- Photo: first on mobile, right on desktop. Always fully visible. ---------- */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="order-1 lg:order-2 flex flex-col items-center gap-4"
+        >
+          <button
+            type="button"
+            onClick={() => setPhotoOpen(true)}
+            aria-label="Open the full photo of Ranjith Ramadass"
+            className="group relative focus:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan rounded-full"
+          >
+            {/* Rotating rings around the portrait */}
+            <div className="photo-ring photo-ring-outer" aria-hidden />
+            <div className="photo-ring photo-ring-inner" aria-hidden />
 
+            <div className="photo-circle relative">
+              <img
+                src={PHOTO_SRC}
+                alt="Ranjith Ramadass"
+                className="w-full h-full rounded-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                style={{ objectPosition: '50% 22%' }}
+              />
+              {/* Sweep highlight on hover */}
+              <div className="photo-sweep" aria-hidden />
+            </div>
+
+          </button>
+
+          {/* Open badge — sits below the portrait so it never covers the face */}
+          <button
+            type="button"
+            onClick={() => setPhotoOpen(true)}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full font-mono text-[10px] tracking-widest text-neon-cyan whitespace-nowrap transition-colors hover:text-white"
+            style={{ background: 'rgba(0,243,255,0.06)', border: '1px solid rgba(0,243,255,0.3)' }}
+          >
+            <Maximize2 size={11} />
+            VIEW FULL PHOTO
+          </button>
+
+          <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 font-mono text-[10px] tracking-widest text-gray-500">
+            <span>HANNOVER · 52.37° N 9.73° E</span>
+            <span className="hidden sm:block w-px h-3 bg-white/10" />
+            <span className="text-hud-green flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-hud-green animate-pulse-slow" />
+              OPEN TO WORK
+            </span>
+          </div>
+        </motion.div>
+
+        {/* ---------- Text ---------- */}
         <motion.div
           variants={container}
           initial="hidden"
           animate="show"
-          className="relative"
+          className="order-2 lg:order-1 text-center lg:text-left"
         >
-          {/* System tag */}
-          <motion.div variants={fadeUp} className="mb-6">
-            <span className="section-tag">Captain's Bridge // Initializing...</span>
+          <motion.div variants={fadeUp} className="mb-5">
+            <span className="section-tag">// AI Integration Specialist — Hannover, Germany</span>
           </motion.div>
 
-          {/* Profile Image with HUD frame */}
-          <motion.div 
-            variants={fadeUp}
-            className="mb-8 relative inline-block group"
-          >
-            <div className="relative w-32 h-32 sm:w-40 h-40 mx-auto">
-              {/* Spinning technical rings */}
-              <div className="absolute inset-[-10px] border border-neon-cyan/20 rounded-full animate-[spin_10s_linear_infinite]" />
-              <div className="absolute inset-[-18px] border border-dashed border-neon-amber/20 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
-              
-              {/* Corner brackets for the image */}
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-neon-cyan opacity-60" />
-              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-neon-cyan opacity-60" />
-              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-neon-cyan opacity-60" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-neon-cyan opacity-60" />
-
-              <div className="w-full h-full rounded-full overflow-hidden border-2 border-white/10 relative z-10">
-                <img
-                  src="/ranjith-profile.png"
-                  alt="Ranjith Ramadass — AI Integration Specialist"
-                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
-                />
-              </div>
-              
-              {/* Scanning line on image */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neon-cyan/10 to-transparent h-1/2 w-full animate-scanline pointer-events-none z-20" />
-            </div>
-          </motion.div>
-
-          {/* Name with glitch */}
           <motion.h1
             variants={fadeUp}
-            className="text-6xl sm:text-8xl font-bold tracking-tight mb-4 animate-glitch"
+            className="text-5xl sm:text-6xl xl:text-7xl font-bold tracking-tight mb-4 animate-glitch"
             style={{
               background: 'linear-gradient(135deg, #ffffff 30%, #00f3ff 70%)',
               WebkitBackgroundClip: 'text',
@@ -118,79 +138,86 @@ const Hero: React.FC = () => {
             {PROFILE.name}
           </motion.h1>
 
-          {/* Typing role */}
-          <motion.div variants={fadeUp} className="text-xl sm:text-2xl font-mono mb-8 h-8">
+          <motion.div variants={fadeUp} className="text-lg sm:text-2xl font-mono mb-6 h-8">
             <TypingText texts={ROLES} />
           </motion.div>
 
-          {/* Bio */}
           <motion.p
             variants={fadeUp}
-            className="max-w-2xl mx-auto text-gray-400 text-base sm:text-lg leading-relaxed mb-12"
+            className="max-w-xl mx-auto lg:mx-0 text-gray-400 text-base sm:text-lg leading-relaxed mb-8"
           >
             {PROFILE.bio}
           </motion.p>
 
-          {/* CTAs */}
-          <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="https://github.com/Ranjith1605"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative px-8 py-3 font-mono text-sm tracking-widest uppercase overflow-hidden"
-              style={{
-                background: 'rgba(0,243,255,0.08)',
-                border: '1px solid rgba(0,243,255,0.4)',
-                color: '#00f3ff',
-                transition: 'all 0.3s',
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.background = 'rgba(0,243,255,0.18)';
-                (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(0,243,255,0.3), inset 0 0 20px rgba(0,243,255,0.05)';
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.background = 'rgba(0,243,255,0.08)';
-                (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-              }}
-            >
-              View Captain's Log (Resume)
-            </a>
-            <button
-              onClick={scrollToContact}
-              className="px-8 py-3 font-mono text-sm tracking-widest uppercase"
-              style={{
-                background: 'rgba(255,170,0,0.1)',
-                border: '1px solid rgba(255,170,0,0.4)',
-                color: '#ffaa00',
-                transition: 'all 0.3s',
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.background = 'rgba(255,170,0,0.2)';
-                (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(255,170,0,0.3)';
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.background = 'rgba(255,170,0,0.1)';
-                (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-              }}
-            >
-              ⚡ Hail Communication (Contact)
-            </button>
-          </motion.div>
-
-          {/* Scroll indicator */}
+          {/* Signals — the three things a recruiter scans for */}
           <motion.div
             variants={fadeUp}
-            className="mt-16 flex flex-col items-center gap-2 opacity-40"
+            className="flex flex-wrap justify-center lg:justify-start gap-2 mb-10 font-mono text-[11px] tracking-wider"
           >
-            <span className="font-mono text-xs tracking-widest text-gray-500">SCROLL TO NAVIGATE</span>
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ repeat: Infinity, duration: 1.8 }}
-              className="w-px h-10 bg-gradient-to-b from-neon-cyan to-transparent"
-            />
+            {['Claude · Gemini · GPT', 'EU AI Act · GDPR', 'Python · TypeScript', 'EN C1 · DE B2 · TA'].map(s => (
+              <span
+                key={s}
+                className="px-3 py-1.5 rounded-sm text-gray-400"
+                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+              >
+                {s}
+              </span>
+            ))}
+          </motion.div>
+
+          {/* CTAs */}
+          <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+            <a
+              href={`mailto:${PROFILE.email}`}
+              className="inline-flex items-center gap-2 px-6 py-3 font-mono text-xs tracking-widest uppercase rounded-sm transition-all hover:text-white"
+              style={{ background: 'rgba(0,243,255,0.10)', border: '1px solid rgba(0,243,255,0.5)', color: '#00f3ff' }}
+            >
+              <Mail size={14} /> Contact me
+            </a>
+            <a
+              href={PROFILE.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 font-mono text-xs tracking-widest uppercase rounded-sm transition-all hover:text-white"
+              style={{ background: 'rgba(255,170,0,0.08)', border: '1px solid rgba(255,170,0,0.45)', color: '#ffaa00' }}
+            >
+              <Github size={14} /> GitHub
+            </a>
+            <a
+              href={PROFILE.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-3 font-mono text-xs tracking-widest uppercase text-gray-400 hover:text-white transition-colors"
+            >
+              <Linkedin size={14} /> LinkedIn
+            </a>
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+        <span className="font-mono text-[10px] tracking-widest text-gray-500">SCROLL · EVERY CARD OPENS</span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 1.8 }}
+          className="w-px h-8 bg-gradient-to-b from-neon-cyan to-transparent"
+        />
+      </div>
+
+      {/* Photo portal — the full image, large, uncropped */}
+      <Portal
+        open={photoOpen}
+        onClose={() => setPhotoOpen(false)}
+        tag="// Portrait"
+        title={PROFILE.name}
+        subtitle={PROFILE.role}
+        details={{ story: [PROFILE.bio], links: [{ label: 'LinkedIn', url: PROFILE.linkedin }, { label: 'GitHub', url: PROFILE.github }] }}
+      >
+        <div className="rounded-sm overflow-hidden" style={{ border: '1px solid rgba(0,243,255,0.25)', background: '#020206' }}>
+          <img src={PHOTO_SRC} alt="Ranjith Ramadass, full portrait" className="block w-full h-auto max-h-[70vh] object-contain mx-auto" />
+        </div>
+      </Portal>
     </section>
   );
 };

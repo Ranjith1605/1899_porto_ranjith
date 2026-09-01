@@ -7,148 +7,15 @@
     <meta name="description" content="Ranjith Ramadass — AI Integration Specialist and AI Project Manager in Hannover, Germany. LLM integration (Claude, Gemini, GPT), process automation, EU AI Act & GDPR-aware delivery. Building Projkt 360° and CipherPolice. Open to AI development roles and projects." />
     <meta name="keywords" content="AI Integration Specialist, AI Developer Hannover, AI Project Manager Germany, LLM Integration, Claude, EU AI Act, Prozessautomatisierung, KI-Entwickler, CipherPolice, Projkt 360" />
     <meta name="author" content="Ranjith Ramadass" />
+    <meta name="theme-color" content="#020206" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Ranjith Ramadass | AI Integration Specialist & AI Project Manager" />
     <meta property="og:description" content="Integrating the latest AI models into real products and workflows. EU AI Act-aligned. Building Projkt 360° and CipherPolice. Open to AI development work." />
-    <meta property="og:image" content="/ranjith-profile.png" />
+    <meta property="og:image" content="/ranjith-profile.jpg" />
     <meta name="twitter:card" content="summary" />
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'space-void': '#020206',
-              'space-black': '#050510',
-              'neon-cyan': '#00f3ff',
-              'neon-amber': '#ffaa00',
-              'hud-green': '#39FF14',
-              'deep-purple': '#1a0a2e',
-              'glass': 'rgba(255,255,255,0.04)',
-            },
-            fontFamily: {
-              sans: ['"Space Grotesk"', 'sans-serif'],
-              mono: ['"JetBrains Mono"', 'monospace'],
-            },
-            animation: {
-              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'flicker': 'flicker 4s linear infinite',
-              'float': 'float 6s ease-in-out infinite',
-              'scanline': 'scanline 6s linear infinite',
-              'glitch': 'glitch 3s infinite',
-              'blink': 'blink 1.2s step-end infinite',
-              'hud-border': 'hud-border 2s ease-in-out infinite alternate',
-            },
-            keyframes: {
-              flicker: {
-                '0%, 19%, 21%, 23%, 25%, 54%, 56%, 100%': { opacity: '1' },
-                '20%, 24%, 55%': { opacity: '0.4' },
-              },
-              float: {
-                '0%, 100%': { transform: 'translateY(0px)' },
-                '50%': { transform: 'translateY(-8px)' },
-              },
-              scanline: {
-                '0%': { transform: 'translateY(-100%)' },
-                '100%': { transform: 'translateY(100vh)' },
-              },
-              glitch: {
-                '0%, 100%': { textShadow: '2px 0 #00f3ff, -2px 0 #ffaa00' },
-                '25%': { textShadow: '-2px 0 #00f3ff, 2px 0 #ffaa00' },
-                '50%': { textShadow: '2px 2px #00f3ff, -2px -2px #ffaa00' },
-                '75%': { textShadow: '0 0 8px #00f3ff, 0 0 16px #ffaa00' },
-              },
-              blink: {
-                '0%, 100%': { opacity: '1' },
-                '50%': { opacity: '0' },
-              },
-              'hud-border': {
-                '0%': { borderColor: 'rgba(0,243,255,0.3)' },
-                '100%': { borderColor: 'rgba(0,243,255,0.8)' },
-              }
-            }
-          },
-        },
-      }
-    </script>
-    <style>
-      * { box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
-      body {
-        background-color: #020206;
-        color: #c8d6e5;
-        overflow-x: hidden;
-        font-family: 'Space Grotesk', sans-serif;
-      }
-      ::-webkit-scrollbar { width: 6px; }
-      ::-webkit-scrollbar-track { background: #020206; }
-      ::-webkit-scrollbar-thumb { background: #00f3ff44; border-radius: 3px; }
-      ::-webkit-scrollbar-thumb:hover { background: #00f3ff99; }
-
-      .hologram-text {
-        text-shadow: 0 0 8px rgba(0,243,255,0.7), 0 0 20px rgba(0,243,255,0.4);
-      }
-      .amber-glow {
-        text-shadow: 0 0 8px rgba(255,170,0,0.7), 0 0 20px rgba(255,170,0,0.4);
-      }
-      .hud-corner::before, .hud-corner::after,
-      .hud-corner-inner::before, .hud-corner-inner::after {
-        content: '';
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        border-color: #00f3ff;
-        border-style: solid;
-        opacity: 0.7;
-      }
-      .hud-corner::before { top: 0; left: 0; border-width: 2px 0 0 2px; }
-      .hud-corner::after  { top: 0; right: 0; border-width: 2px 2px 0 0; }
-      .hud-corner-inner::before { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
-      .hud-corner-inner::after  { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
-
-      .glass-card {
-        background: rgba(255,255,255,0.03);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(0,243,255,0.15);
-      }
-      .skill-pill:hover {
-        box-shadow: 0 0 12px rgba(0,243,255,0.5), 0 0 24px rgba(0,243,255,0.2);
-        border-color: rgba(0,243,255,0.8);
-        color: #00f3ff;
-      }
-      .amber-pill:hover {
-        box-shadow: 0 0 12px rgba(255,170,0,0.5), 0 0 24px rgba(255,170,0,0.2);
-        border-color: rgba(255,170,0,0.8);
-        color: #ffaa00;
-      }
-      .green-pill:hover {
-        box-shadow: 0 0 12px rgba(57,255,20,0.5), 0 0 24px rgba(57,255,20,0.2);
-        border-color: rgba(57,255,20,0.8);
-        color: #39FF14;
-      }
-      .timeline-glow::before {
-        content: '';
-        position: absolute;
-        left: -1px;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: linear-gradient(to bottom, transparent, #00f3ff, #ffaa00, transparent);
-        filter: blur(2px);
-      }
-      .section-tag {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.7rem;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: #00f3ff;
-        opacity: 0.7;
-      }
-    </style>
   <script type="importmap">
 {
   "imports": {
@@ -162,7 +29,6 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
   <body>
     <div id="root"></div>
