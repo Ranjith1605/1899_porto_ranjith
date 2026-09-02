@@ -63,7 +63,7 @@ const CommsLink: React.FC = () => {
         } else if (lowerInput.includes('cipher') || lowerInput.includes('security')) {
           addMessage('model', "🛡️ **CipherPolice** is Ranjith's AI-powered cybersecurity flagship.\n\n- Real-time tracker and session risk detection\n- 35+ secret & credential leak guard\n- Automated EU AI Act compliance checks\n- Live at: [cipherpolice.com](https://cipherpolice.com) & [cipherpolice.de](https://cipherpolice.de)");
         } else if (lowerInput.includes('360') || lowerInput.includes('projkt')) {
-          addMessage('model', "⚡ **PROJKT 360 DEGREE** is an autonomous multi-agent AI second brain.\n\n- Orchestrates Claude 3.7 / Opus, Gemini 2.5, GPT-4o\n- Automated RAG pipelines with Voyage AI & Pinecone\n- Autonomous code synthesis and research workflows");
+          addMessage('model', "⚡ **PROJKT 360 DEGREE** is an autonomous multi-agent AI second brain.\n\n- Orchestrates Gemini 3.8, Opus 5, Fable 5.1, Mythos 5.1\n- Automated RAG pipelines with Voyage AI & Pinecone\n- Autonomous code synthesis and research workflows");
         } else if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
           addMessage('model', "Greetings. I am CipherBot, Ranjith's AI Interface. I can help you **Book a Discovery Call**, explore **CipherPolice / PROJKT 360 DEGREE**, or fetch **Direct Contact Info**.");
         } else {

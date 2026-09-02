@@ -106,7 +106,7 @@ const App: React.FC = () => {
                   <div className="glass-card p-6 border-l-4 border-neon-cyan/50 bg-neon-cyan/5">
                     <h3 className="text-neon-cyan font-bold mb-2">Flagship 01: PROJKT 360 DEGREE</h3>
                     <p className="text-sm text-gray-400 leading-relaxed mb-3">
-                      An enterprise-grade autonomous second brain and multi-agent execution pipeline synthesizing Claude Opus, Gemini 2.5, and vector retrieval.
+                      An enterprise-grade autonomous second brain and multi-agent execution pipeline synthesizing Gemini 3.8, Opus 5, Fable 5.1, and vector retrieval.
                     </p>
                   </div>
 

@@ -3,7 +3,7 @@ import { SkillCategory, Experience, Project, Education, CurrentStatus, NavItem }
 export const PROFILE = {
   name: 'Ranjith Ramadass',
   role: 'AI Integration Specialist · Enterprise Automation Architect · EU AI Act Expert',
-  bio: 'Pioneering compliant, production-ready AI integrations across Germany and Europe. Combining deep LLM orchestration (Claude Opus, Gemini 2.5, GPT-4o) and autonomous multi-agent pipelines with rigorous EU AI Act & DSGVO compliance. Founder of CipherPolice and creator of PROJKT 360 DEGREE.',
+  bio: 'Pioneering compliant, production-ready AI integrations across Germany and Europe. Combining next-gen LLM orchestration (Gemini 3.8, Opus 5, Fable 5.1, Mythos 5.1) and autonomous multi-agent pipelines with rigorous EU AI Act & DSGVO compliance. Founder of CipherPolice and creator of PROJKT 360 DEGREE.',
   email: '007ranjithr.v@gmail.com',
   altEmail: 'ranjithrv1605@gmail.com',
   phone: '+49 1551 0174187',
@@ -59,8 +59,9 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     title: 'AI, LLMs & Multi-Agent Systems',
     variant: 'cyan',
     skills: [
-      { name: 'Claude 3.7 / Opus' },
-      { name: 'Gemini 2.5 Pro / Flash' },
+      { name: 'Gemini 3.8 & Flash' },
+      { name: 'Claude Opus 5' },
+      { name: 'Fable 5.1 & Mythos 5.1' },
       { name: 'GPT-4o & OpenAI APIs' },
       { name: 'Multi-Agent Orchestration' },
       { name: 'RAG Architecture (Pinecone, Voyage AI)' },
@@ -180,8 +181,8 @@ export const PROJECTS: Project[] = [
   {
     title: 'PROJKT 360 DEGREE',
     role: 'Lead Architect & AI Engineer',
-    description: 'An autonomous 360° AI second brain and multi-agent system orchestrating multi-model reasoning (Claude Opus, Gemini 2.5, GPT-4o), vector knowledge retrieval (Voyage AI / Pinecone), and automated execution pipelines.',
-    tech: ['Multi-Agent Systems', 'Claude Opus', 'Gemini Flash', 'Pinecone', 'Voyage AI', 'Python'],
+    description: 'An autonomous 360° AI second brain and multi-agent system orchestrating multi-model reasoning (Gemini 3.8, Opus 5, Fable 5.1, Mythos 5.1), vector knowledge retrieval (Voyage AI / Pinecone), and automated execution pipelines.',
+    tech: ['Multi-Agent Systems', 'Gemini 3.8', 'Opus 5', 'Fable 5.1', 'Mythos 5.1', 'Pinecone', 'Python'],
     highlight: 'Flagship Autonomous AI',
     github: 'https://github.com/Ranjith1605',
   },
