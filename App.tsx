@@ -26,8 +26,8 @@ const SectionDivider: React.FC = () => (
 const Footer: React.FC = () => (
   <footer className="relative py-12 px-6 border-t" style={{ borderColor: 'rgba(0,243,255,0.08)', zIndex: 10 }}>
     <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
-      <p className="font-mono text-xs text-gray-600">
-        &copy; {new Date().getFullYear()} Ranjith Ramadass — All coordinates reserved.
+      <p className="font-mono text-xs text-gray-400">
+        &copy; {new Date().getFullYear()} Ranjith Ramadass — AI Integration Specialist · Hannover, Germany
       </p>
       <div className="flex items-center gap-4">
         <a href="https://github.com/Ranjith1605" target="_blank" rel="noopener noreferrer"
@@ -35,13 +35,18 @@ const Footer: React.FC = () => (
           GITHUB
         </a>
         <span className="text-gray-700">·</span>
-        <a href="https://www.linkedin.com/in/ranjith-ramadass-1591a819a" target="_blank" rel="noopener noreferrer"
+        <a href="https://www.linkedin.com/in/ranjith" target="_blank" rel="noopener noreferrer"
           className="font-mono text-xs text-gray-500 hover:text-neon-amber transition-colors tracking-widest">
           LINKEDIN
         </a>
         <span className="text-gray-700">·</span>
-        <a href="mailto:007ranjithr.v@gmail.com"
+        <a href="https://cipherpolice.com" target="_blank" rel="noopener noreferrer"
           className="font-mono text-xs text-gray-500 hover:text-hud-green transition-colors tracking-widest">
+          CIPHERPOLICE
+        </a>
+        <span className="text-gray-700">·</span>
+        <a href="mailto:007ranjithr.v@gmail.com"
+          className="font-mono text-xs text-gray-500 hover:text-neon-cyan transition-colors tracking-widest">
           EMAIL
         </a>
       </div>
@@ -90,23 +95,29 @@ const App: React.FC = () => {
                 transition={{ duration: 0.8 }}
                 className="flex-1"
               >
-                <span className="section-tag block mb-4">The Captain's Dream // 1899 Odyssey</span>
+                <span className="section-tag block mb-4">The Captain's Vision // 360° AI Ecosystem</span>
                 <h2 className="text-4xl sm:text-6xl font-bold text-white mb-6">
                   Building the <span className="hologram-text text-neon-cyan">Digital Starship</span>
                 </h2>
-                <p className="text-gray-400 text-lg leading-relaxed mb-6 font-mono">
-                  "My dream is creating my own spaceship, with me as the Captain. A flagship of technology, privacy, and innovation."
+                <p className="text-gray-300 text-lg leading-relaxed mb-6 font-mono">
+                  "Orchestrating autonomous AI agents, privacy-first cybersecurity, and compliant enterprise integrations into a unified 360° intelligence starship."
                 </p>
                 <div className="space-y-4">
                   <div className="glass-card p-6 border-l-4 border-neon-cyan/50 bg-neon-cyan/5">
-                    <h3 className="text-neon-cyan font-bold mb-2">Project: CipherPolice</h3>
+                    <h3 className="text-neon-cyan font-bold mb-2">Flagship 01: PROJKT 360 DEGREE</h3>
+                    <p className="text-sm text-gray-400 leading-relaxed mb-3">
+                      An enterprise-grade autonomous second brain and multi-agent execution pipeline synthesizing Claude Opus, Gemini 2.5, and vector retrieval.
+                    </p>
+                  </div>
+
+                  <div className="glass-card p-6 border-l-4 border-hud-green/50 bg-hud-green/5">
+                    <h3 className="text-hud-green font-bold mb-2">Flagship 02: CipherPolice</h3>
                     <p className="text-sm text-gray-400 leading-relaxed">
-                      We are developing CipherPolice to return digital sovereignty to the people. 
-                      An AI-driven shield that detects malicious patterns in real-time.
+                      Returning digital sovereignty with real-time tracker detection, a 35+ rule credential leak guard, and automated EU AI Act compliance checks.
                       <br /><br />
-                      <span className="flex gap-4">
-                        <a href="https://cipherpolice.com" target="_blank" rel="noopener noreferrer" className="text-neon-amber hover:underline hover:text-neon-cyan transition-colors">→ cipherpolice.com</a>
-                        <a href="https://cipherpolice.de" target="_blank" rel="noopener noreferrer" className="text-neon-amber hover:underline hover:text-neon-cyan transition-colors">→ cipherpolice.de</a>
+                      <span className="flex flex-wrap gap-4 font-mono text-xs">
+                        <a href="https://cipherpolice.com" target="_blank" rel="noopener noreferrer" className="text-neon-cyan hover:underline transition-colors">→ cipherpolice.com</a>
+                        <a href="https://cipherpolice.de" target="_blank" rel="noopener noreferrer" className="text-neon-cyan hover:underline transition-colors">→ cipherpolice.de</a>
                       </span>
                     </p>
                   </div>
@@ -131,9 +142,9 @@ const App: React.FC = () => {
                 
                 {/* Coordinates overlay */}
                 <div className="absolute bottom-6 right-6 font-mono text-[10px] text-neon-cyan opacity-60 tracking-tighter text-right">
-                  SECTOR: 1899-CLIMAX<br />
-                  COORDINATES: 52.3702° N, 9.7332° E<br />
-                  STATUS: SHIP UNDER CONSTRUCTION
+                  SECTOR: 1899-ODYSSEY<br />
+                  COORDINATES: 52.3702° N, 9.7332° E (Hannover)<br />
+                  STATUS: ENTERPRISE AI SHIP OPERATIONAL
                 </div>
               </motion.div>
             </div>
@@ -146,25 +157,35 @@ const App: React.FC = () => {
         <div id="comms" className="py-16 text-center" style={{ zIndex: 10 }}>
           <span className="section-tag block mb-4">Hail Communication // Open Channel</span>
           <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-            Open <span className="hologram-text text-neon-cyan">Channel</span>
+            Connect & <span className="hologram-text text-neon-cyan">Collaborate</span>
           </h2>
-          <p className="text-gray-500 mb-2 font-mono text-sm">Use the Comms button (bottom-right) to open a direct channel.</p>
-          <div className="flex flex-wrap items-center justify-center gap-6 mt-8">
+          <p className="text-gray-400 mb-2 font-mono text-sm max-w-xl mx-auto">
+            Available for enterprise AI integration, custom LLM workflows, and EU AI Act compliance consulting.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
             <a href="mailto:007ranjithr.v@gmail.com"
-              className="font-mono text-sm px-6 py-3 transition-all duration-300"
+              className="font-mono text-sm px-6 py-3 transition-all duration-300 rounded-sm"
               style={{ background: 'rgba(0,243,255,0.06)', border: '1px solid rgba(0,243,255,0.25)', color: '#00f3ff' }}
               onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 20px rgba(0,243,255,0.2)')}
               onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
             >
               📧 007ranjithr.v@gmail.com
             </a>
-            <a href="https://www.linkedin.com/in/ranjith-ramadass-1591a819a" target="_blank" rel="noopener noreferrer"
-              className="font-mono text-sm px-6 py-3 transition-all duration-300"
+            <a href="tel:+4915510174187"
+              className="font-mono text-sm px-6 py-3 transition-all duration-300 rounded-sm"
+              style={{ background: 'rgba(57,255,20,0.06)', border: '1px solid rgba(57,255,20,0.25)', color: '#39FF14' }}
+              onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 20px rgba(57,255,20,0.2)')}
+              onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
+            >
+              📱 +49 1551 0174187
+            </a>
+            <a href="https://www.linkedin.com/in/ranjith" target="_blank" rel="noopener noreferrer"
+              className="font-mono text-sm px-6 py-3 transition-all duration-300 rounded-sm"
               style={{ background: 'rgba(255,170,0,0.06)', border: '1px solid rgba(255,170,0,0.25)', color: '#ffaa00' }}
               onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 20px rgba(255,170,0,0.2)')}
               onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
             >
-              🔗 LinkedIn Profile
+              💼 LinkedIn Profile
             </a>
           </div>
 

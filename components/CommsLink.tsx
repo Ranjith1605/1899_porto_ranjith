@@ -15,7 +15,7 @@ interface BookingData {
 const CommsLink: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'model', text: "CipherBot Online. I can assist you with **Appointment Booking** or providing **Contact Information**. How may I help?", timestamp: Date.now() }
+    { role: 'model', text: "CipherBot Interface Online. Welcome! I can assist you with **Booking a Consultation Call**, exploring **PROJKT 360 DEGREE / CipherPolice**, or providing **Verified Contact Info** for Ranjith Ramadass.", timestamp: Date.now() }
   ]);
   const [input, setInput] = useState('');
   const [isThinking, setIsThinking] = useState(false);
@@ -55,15 +55,19 @@ const CommsLink: React.FC = () => {
 
     switch (chatState) {
       case 'IDLE':
-        if (lowerInput.includes('book') || lowerInput.includes('appointment') || lowerInput.includes('schedule')) {
+        if (lowerInput.includes('book') || lowerInput.includes('appointment') || lowerInput.includes('schedule') || lowerInput.includes('call')) {
           setChatState('BOOKING_DATE');
-          addMessage('model', "Initiating Appointment Protocol.\n\nPlease enter your preferred **Date** (e.g., 'Tomorrow', 'Next Monday', or 'Oct 25').");
-        } else if (lowerInput.includes('contact') || lowerInput.includes('reach') || lowerInput.includes('email') || lowerInput.includes('phone')) {
-          addMessage('model', "Accessing Contact Database...\n\n**Email**: ranjith@example.com\n**LinkedIn**: linkedin.com/in/ranjith\n**GitHub**: github.com/ranjith\n\nIs there anything else?");
+          addMessage('model', "Initiating Discovery Call / Consultation Booking Protocol.\n\nPlease enter your preferred **Date** (e.g., 'Tomorrow', 'Next Monday', or 'Oct 25').");
+        } else if (lowerInput.includes('contact') || lowerInput.includes('reach') || lowerInput.includes('email') || lowerInput.includes('phone') || lowerInput.includes('info')) {
+          addMessage('model', "Accessing Verified Contact Dossier...\n\n- **Name**: Ranjith Ramadass\n- **Role**: AI Integration Specialist & EU AI Act Expert\n- **Location**: Hannover, Germany\n- **Email**: `007ranjithr.v@gmail.com`\n- **Phone**: `+49 1551 0174187`\n- **LinkedIn**: [linkedin.com/in/ranjith](https://www.linkedin.com/in/ranjith)\n- **GitHub**: [github.com/Ranjith1605](https://github.com/Ranjith1605)\n- **Platforms**: [cipherpolice.com](https://cipherpolice.com) · [cipherpolice.de](https://cipherpolice.de)\n\nHow else can I assist your integration needs?");
+        } else if (lowerInput.includes('cipher') || lowerInput.includes('security')) {
+          addMessage('model', "🛡️ **CipherPolice** is Ranjith's AI-powered cybersecurity flagship.\n\n- Real-time tracker and session risk detection\n- 35+ secret & credential leak guard\n- Automated EU AI Act compliance checks\n- Live at: [cipherpolice.com](https://cipherpolice.com) & [cipherpolice.de](https://cipherpolice.de)");
+        } else if (lowerInput.includes('360') || lowerInput.includes('projkt')) {
+          addMessage('model', "⚡ **PROJKT 360 DEGREE** is an autonomous multi-agent AI second brain.\n\n- Orchestrates Claude 3.7 / Opus, Gemini 2.5, GPT-4o\n- Automated RAG pipelines with Voyage AI & Pinecone\n- Autonomous code synthesis and research workflows");
         } else if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
-          addMessage('model', "Greetings. I am CipherBot. I can help you **Book an Appointment** or find **Contact Info**.");
+          addMessage('model', "Greetings. I am CipherBot, Ranjith's AI Interface. I can help you **Book a Discovery Call**, explore **CipherPolice / PROJKT 360 DEGREE**, or fetch **Direct Contact Info**.");
         } else {
-          addMessage('model', "Command not recognized. Please specify:\n- **Book Appointment**\n- **Contact Info**");
+          addMessage('model', "Command received. Please choose an action:\n- **Book Discovery Call**\n- **Contact Info**\n- **About CipherPolice**\n- **About PROJKT 360 DEGREE**");
         }
         break;
 
@@ -168,11 +172,17 @@ const CommsLink: React.FC = () => {
             {/* Quick Actions (Visible when IDLE) */}
             {chatState === 'IDLE' && !isThinking && (
               <div className="p-2 bg-black border-t border-gray-800 flex gap-2 overflow-x-auto">
-                <button onClick={() => { setInput('Book Appointment'); handleSend(); }} className="flex items-center gap-1 px-3 py-1 bg-gray-900 border border-gray-700 rounded text-xs text-neon-cyan hover:bg-gray-800 whitespace-nowrap">
-                  <Calendar size={12} /> Book Slot
+                <button onClick={() => { setInput('Book Call'); handleSend(); }} className="flex items-center gap-1 px-3 py-1 bg-gray-900 border border-gray-700 rounded text-xs text-neon-cyan hover:bg-gray-800 whitespace-nowrap">
+                  <Calendar size={12} /> Book Call
                 </button>
-                <button onClick={() => { setInput('Contact Info'); handleSend(); }} className="flex items-center gap-1 px-3 py-1 bg-gray-900 border border-gray-700 rounded text-xs text-neon-cyan hover:bg-gray-800 whitespace-nowrap">
+                <button onClick={() => { setInput('Contact Info'); handleSend(); }} className="flex items-center gap-1 px-3 py-1 bg-gray-900 border border-gray-700 rounded text-xs text-neon-amber hover:bg-gray-800 whitespace-nowrap">
                   <Mail size={12} /> Contact
+                </button>
+                <button onClick={() => { setInput('About CipherPolice'); handleSend(); }} className="flex items-center gap-1 px-3 py-1 bg-gray-900 border border-gray-700 rounded text-xs text-hud-green hover:bg-gray-800 whitespace-nowrap">
+                  🛡️ CipherPolice
+                </button>
+                <button onClick={() => { setInput('About PROJKT 360 DEGREE'); handleSend(); }} className="flex items-center gap-1 px-3 py-1 bg-gray-900 border border-gray-700 rounded text-xs text-neon-cyan hover:bg-gray-800 whitespace-nowrap">
+                  ⚡ 360° AI
                 </button>
               </div>
             )}

@@ -25,6 +25,9 @@ export interface Project {
   description: string;
   tech: string[];
   highlight?: string;
+  link?: string;
+  linkText?: string;
+  github?: string;
 }
 
 export interface Education {
@@ -33,6 +36,7 @@ export interface Education {
   institution: string;
   focus?: string;
   isCurrent?: boolean;
+  badge?: string;
 }
 
 export interface CurrentStatus {
@@ -41,9 +45,17 @@ export interface CurrentStatus {
   detail: string;
   icon: string;
   color: 'cyan' | 'amber' | 'green';
+  link?: string;
+  linkText?: string;
 }
 
 export interface NavItem {
   id: string;
   label: string;
+}
+
+export interface ChatMessage {
+  role: 'user' | 'model';
+  text: string;
+  timestamp: number;
 }

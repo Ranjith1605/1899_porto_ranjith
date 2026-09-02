@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { EDUCATION } from '../constants';
+import { EDUCATION, CERTIFICATIONS } from '../constants';
 
 const Academy: React.FC = () => {
   return (
@@ -14,13 +14,13 @@ const Academy: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="mb-16 text-center"
         >
-          <span className="section-tag block mb-3">Academy Records // Credentials</span>
+          <span className="section-tag block mb-3">Academic Foundation // Research & Certifications</span>
           <h2 className="text-4xl sm:text-5xl font-bold text-white">
-            Academy <span className="hologram-text text-neon-cyan">Records</span>
+            Academy & <span className="hologram-text text-neon-cyan">Thesis</span>
           </h2>
         </motion.div>
 
-        <div className="space-y-6">
+        <div className="space-y-6 mb-16">
           {EDUCATION.map((edu, i) => (
             <motion.div
               key={i}
@@ -45,6 +45,11 @@ const Academy: React.FC = () => {
                     <span className="font-mono text-xs text-neon-cyan">CURRENT</span>
                   </div>
                 )}
+                {edu.badge && (
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded border border-white/10 text-gray-400 mt-2 inline-block">
+                    {edu.badge}
+                  </span>
+                )}
               </div>
 
               {/* Content */}
@@ -54,8 +59,8 @@ const Academy: React.FC = () => {
                   {edu.institution}
                 </p>
                 {edu.focus && (
-                  <p className="text-gray-500 text-sm">
-                    <span className="text-gray-600 font-mono text-xs">Focus: </span>{edu.focus}
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    <span className="text-gray-500 font-mono text-xs">Focus: </span>{edu.focus}
                   </p>
                 )}
               </div>
@@ -65,6 +70,31 @@ const Academy: React.FC = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Certifications Row */}
+        {CERTIFICATIONS && CERTIFICATIONS.length > 0 && (
+          <div>
+            <div className="flex items-center gap-4 mb-6">
+              <span className="font-mono text-xs tracking-widest uppercase text-neon-amber">
+                ── Professional Certifications & Specializations
+              </span>
+              <div className="flex-1 h-px bg-neon-amber/20" />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {CERTIFICATIONS.map((cert, ci) => (
+                <div key={ci} className="glass-card p-4 rounded-sm border border-neon-amber/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-neon-amber font-mono text-xs">📜 Verified</span>
+                    <span className="font-mono text-[10px] text-gray-500 ml-auto">{cert.year}</span>
+                  </div>
+                  <h4 className="font-bold text-white text-sm mb-1">{cert.title}</h4>
+                  <p className="font-mono text-xs text-neon-amber/80">{cert.issuer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

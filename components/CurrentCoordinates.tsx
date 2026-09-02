@@ -91,10 +91,23 @@ const CurrentCoordinates: React.FC = () => {
                 {/* Institution */}
                 <p className="font-mono text-xs mb-4" style={{ color: colors.text }}>{coord.institution}</p>
                 {/* Detail */}
-                <p className="text-gray-400 text-sm leading-relaxed">{coord.detail}</p>
+                <p className="text-gray-400 text-sm leading-relaxed mb-4">{coord.detail}</p>
+
+                {/* Optional Link */}
+                {coord.link && (
+                  <a
+                    href={coord.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 font-mono text-xs font-bold transition-colors"
+                    style={{ color: colors.text }}
+                  >
+                    → {coord.linkText || 'Open System'}
+                  </a>
+                )}
 
                 {/* HUD line at bottom */}
-                <div className="mt-6 h-px" style={{ background: `linear-gradient(to right, ${colors.dot}44, transparent)` }} />
+                <div className="mt-4 h-px" style={{ background: `linear-gradient(to right, ${colors.dot}44, transparent)` }} />
               </motion.div>
             );
           })}

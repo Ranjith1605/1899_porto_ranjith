@@ -3,10 +3,11 @@ import { motion } from 'framer-motion';
 import { PROFILE } from '../constants';
 
 const ROLES = [
-  'Strategic AI Developer',
-  'Founder of CipherPolice',
-  'Digital Business Visionary',
-  'AI & Sustainability Researcher',
+  'AI Integration Specialist (Germany)',
+  'Founder & Lead Architect @ CipherPolice',
+  'PROJKT 360 DEGREE Creator',
+  'EU AI Act & Compliance Expert',
+  'Enterprise LLM Automation Engineer',
 ];
 
 const TypingText: React.FC<{ texts: string[] }> = ({ texts }) => {
@@ -118,14 +119,30 @@ const Hero: React.FC = () => {
           </motion.h1>
 
           {/* Typing role */}
-          <motion.div variants={fadeUp} className="text-xl sm:text-2xl font-mono mb-8 h-8">
+          <motion.div variants={fadeUp} className="text-xl sm:text-2xl font-mono mb-6 h-8">
             <TypingText texts={ROLES} />
+          </motion.div>
+
+          {/* Quick Badges */}
+          <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-2 mb-8 max-w-3xl mx-auto">
+            <span className="font-mono text-xs px-3 py-1 rounded-full border border-neon-cyan/30 bg-neon-cyan/5 text-neon-cyan flex items-center gap-1.5">
+              <span>📍</span> Hannover, Germany
+            </span>
+            <span className="font-mono text-xs px-3 py-1 rounded-full border border-hud-green/30 bg-hud-green/5 text-hud-green flex items-center gap-1.5">
+              <span>🛡️</span> EU AI Act & DSGVO Expert
+            </span>
+            <span className="font-mono text-xs px-3 py-1 rounded-full border border-neon-amber/30 bg-neon-amber/5 text-neon-amber flex items-center gap-1.5">
+              <span>⚡</span> Multi-Agent & RAG Architect
+            </span>
+            <span className="font-mono text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-gray-300 flex items-center gap-1.5">
+              <span>🎓</span> M.Eng & Impact MBA
+            </span>
           </motion.div>
 
           {/* Bio */}
           <motion.p
             variants={fadeUp}
-            className="max-w-2xl mx-auto text-gray-400 text-base sm:text-lg leading-relaxed mb-12"
+            className="max-w-3xl mx-auto text-gray-300 text-base sm:text-lg leading-relaxed mb-10 font-mono"
           >
             {PROFILE.bio}
           </motion.p>
@@ -133,7 +150,7 @@ const Hero: React.FC = () => {
           {/* CTAs */}
           <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-4">
             <a
-              href="https://github.com/Ranjith1605"
+              href="https://www.linkedin.com/in/ranjith"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative px-8 py-3 font-mono text-sm tracking-widest uppercase overflow-hidden"
@@ -152,11 +169,11 @@ const Hero: React.FC = () => {
                 (e.currentTarget as HTMLElement).style.boxShadow = 'none';
               }}
             >
-              View Captain's Log (Resume)
+              💼 LinkedIn Profile
             </a>
             <button
               onClick={scrollToContact}
-              className="px-8 py-3 font-mono text-sm tracking-widest uppercase"
+              className="px-8 py-3 font-mono text-sm tracking-widest uppercase flex items-center gap-2"
               style={{
                 background: 'rgba(255,170,0,0.1)',
                 border: '1px solid rgba(255,170,0,0.4)',
@@ -172,7 +189,7 @@ const Hero: React.FC = () => {
                 (e.currentTarget as HTMLElement).style.boxShadow = 'none';
               }}
             >
-              ⚡ Hail Communication (Contact)
+              ⚡ Initiate Contact & Hire
             </button>
           </motion.div>
 

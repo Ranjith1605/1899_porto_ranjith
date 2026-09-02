@@ -57,13 +57,39 @@ const Projects: React.FC = () => {
               <p className="font-mono text-xs text-neon-amber mb-4">{project.role}</p>
 
               {/* Description */}
-              <p className="text-gray-400 text-sm leading-relaxed flex-1 mb-6">{project.description}</p>
+              <p className="text-gray-400 text-sm leading-relaxed flex-1 mb-4">{project.description}</p>
+
+              {/* Links */}
+              {(project.link || project.github) && (
+                <div className="flex items-center gap-4 mb-4 font-mono text-xs">
+                  {project.link && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-neon-cyan hover:underline flex items-center gap-1 font-bold"
+                    >
+                      ↗ {project.linkText || 'Live Site'}
+                    </a>
+                  )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-white flex items-center gap-1"
+                    >
+                      ⚡ GitHub Repo
+                    </a>
+                  )}
+                </div>
+              )}
 
               {/* Tech stack */}
               <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-white border-opacity-5">
                 {project.tech.map((t, ti) => (
-                  <span key={ti} className="font-mono text-xs px-2 py-0.5 text-gray-500 rounded-sm"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <span key={ti} className="font-mono text-xs px-2 py-0.5 text-gray-400 rounded-sm"
+                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
                     {t}
                   </span>
                 ))}
