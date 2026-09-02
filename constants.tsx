@@ -46,10 +46,10 @@ export const CURRENT_COORDINATES: CurrentStatus[] = [
     linkText: 'Visit cipherpolice.com',
   },
   {
-    role: 'KI-Entwickler & Enterprise Automation',
-    institution: 'Studyheads · Hannover & Salzgitter',
-    detail: 'Developing and deploying automated logistics REST-API integrations in Python (DHL parcel workflows) and internal LLM business automations.',
-    icon: '⚙️',
+    role: 'AI Integration & Automation Specialist',
+    institution: 'Yoga Vidya · Germany',
+    detail: 'Deploying intelligent AI workflows, automated knowledge management, and human-centric AI adoption frameworks across organizational operations.',
+    icon: '🌿',
     color: 'amber',
   },
 ];
@@ -112,12 +112,12 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
 
 export const EXPERIENCE: Experience[] = [
   {
-    period: 'Mar 2026 – Present',
-    role: 'KI-Entwickler / Werkstudent – Digital Business & Automation',
-    company: 'Studyheads',
-    location: 'Hannover & Salzgitter, Germany',
-    description: 'Engineered and deployed an automated DHL parcel address verification and shipping pipeline via Python REST APIs for client Mambocat. Built internal LLM automations (Claude, Gemini, Perplexity) streamlining repetitive business operations.',
-    tags: ['Python', 'REST APIs', 'DHL Automation', 'LLM Integration', 'Server Deployment'],
+    period: 'Aug 2026 – Present',
+    role: 'AI Integration & Automation Specialist',
+    company: 'Yoga Vidya',
+    location: 'Germany',
+    description: 'Leading organizational AI adoption and workflow automation. Implementing intelligent knowledge retrieval, AI-assisted operations, and human-centric integration frameworks tailored to institutional processes.',
+    tags: ['AI Integration', 'Workflow Automation', 'Knowledge Management', 'EU AI Act', 'LLMs'],
     isCurrent: true,
   },
   {
@@ -128,6 +128,15 @@ export const EXPERIENCE: Experience[] = [
     description: 'Architected and launched an AI-driven browser cybersecurity extension featuring a 35+ prefix-anchored leak-guard engine (intercepting AWS, Anthropic, GCP, Slack, and database credentials) and automated EU AI Act compliance scanning.',
     tags: ['AI Security', 'Leak Guard', 'EU AI Act', 'TypeScript', 'Supabase', 'Clerk'],
     isCurrent: true,
+  },
+  {
+    period: 'Mar 2026 – Jul 2026',
+    role: 'KI-Entwickler & Automation (Internship)',
+    company: 'Studyheads',
+    location: 'Hannover & Salzgitter, Germany',
+    description: 'Engineered and deployed an automated DHL parcel address verification and shipping pipeline via Python REST APIs for client Mambocat on Ubuntu servers. Built internal LLM automations (Claude, Gemini, Perplexity) streamlining repetitive business operations.',
+    tags: ['Python', 'REST APIs', 'DHL Automation', 'LLM Integration', 'Server Deployment'],
+    isCurrent: false,
   },
   {
     period: 'Jul 2025 – Mar 2026',
