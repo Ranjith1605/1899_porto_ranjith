@@ -13,6 +13,7 @@ export const PROFILE = {
   linktree: 'https://linktr.ee/ranjithrv007',
   cipherpolice: 'https://cipherpolice.com',
   cipherpoliceDe: 'https://cipherpolice.de',
+  avatar: '/ranjith-avatar.jpg',
   availability: 'Available for AI Integration & Consulting',
 };
 
