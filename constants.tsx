@@ -131,8 +131,8 @@ export const EXPERIENCE: Experience[] = [
     isCurrent: true,
   },
   {
-    period: 'Mar 2026 – Jul 2026',
-    role: 'KI-Entwickler & Automation (Internship)',
+    period: 'Mar 2026 – Apr 2026',
+    role: 'KI-Entwickler & Automation (2-Month Internship)',
     company: 'Studyheads',
     location: 'Hannover & Salzgitter, Germany',
     description: 'Engineered and deployed an automated DHL parcel address verification and shipping pipeline via Python REST APIs for client Mambocat on Ubuntu servers. Built internal LLM automations (Claude, Gemini, Perplexity) streamlining repetitive business operations.',
