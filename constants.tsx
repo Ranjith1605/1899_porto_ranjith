@@ -13,7 +13,7 @@ export const PROFILE = {
   linktree: 'https://linktr.ee/ranjithrv007',
   cipherpolice: 'https://cipherpolice.com',
   cipherpoliceDe: 'https://cipherpolice.de',
-  avatar: '/ranjith-avatar.jpg',
+  avatar: '/ranjith-portrait-2026.jpg',
   availability: 'Open to AI development roles & projects',
   languages: 'English (C1) · German (B2) · Tamil (native)',
 };
