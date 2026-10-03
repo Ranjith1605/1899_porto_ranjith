@@ -60,7 +60,7 @@ const Academy: React.FC = () => {
                 </p>
                 {edu.focus && (
                   <p className="text-gray-300 text-sm leading-relaxed">
-                    <span className="text-gray-500 font-mono text-xs">Focus: </span>{edu.focus}
+                    {edu.focus}
                   </p>
                 )}
               </div>
@@ -81,12 +81,12 @@ const Academy: React.FC = () => {
               <div className="flex-1 h-px bg-neon-amber/20" />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {CERTIFICATIONS.map((cert, ci) => (
                 <div key={ci} className="glass-card p-4 rounded-sm border border-neon-amber/20">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-neon-amber font-mono text-xs">📜 Verified</span>
-                    <span className="font-mono text-[10px] text-gray-500 ml-auto">{cert.year}</span>
+                    <span className="text-neon-amber font-mono text-xs">{cert.inProgress ? '⏳ In Progress' : '📜 Certificate'}</span>
+                    {cert.year && <span className="font-mono text-[10px] text-gray-500 ml-auto">{cert.year}</span>}
                   </div>
                   <h4 className="font-bold text-white text-sm mb-1">{cert.title}</h4>
                   <p className="font-mono text-xs text-neon-amber/80">{cert.issuer}</p>

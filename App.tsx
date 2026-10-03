@@ -27,7 +27,7 @@ const Footer: React.FC = () => (
   <footer className="relative py-12 px-6 border-t" style={{ borderColor: 'rgba(0,243,255,0.08)', zIndex: 10 }}>
     <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
       <p className="font-mono text-xs text-gray-400">
-        &copy; {new Date().getFullYear()} Ranjith Ramadass — AI Integration Specialist · Hannover, Germany
+        &copy; {new Date().getFullYear()} Ranjith Ramadass — AI Alchemist · Hannover, Germany
       </p>
       <div className="flex items-center gap-4">
         <a href="https://github.com/Ranjith1605" target="_blank" rel="noopener noreferrer"
@@ -45,7 +45,7 @@ const Footer: React.FC = () => (
           CIPHERPOLICE
         </a>
         <span className="text-gray-700">·</span>
-        <a href="mailto:007ranjithr.v@gmail.com"
+        <a href="mailto:ranjithrv1605@gmail.com"
           className="font-mono text-xs text-gray-500 hover:text-neon-cyan transition-colors tracking-widest">
           EMAIL
         </a>
@@ -106,14 +106,14 @@ const App: React.FC = () => {
                   <div className="glass-card p-6 border-l-4 border-neon-cyan/50 bg-neon-cyan/5">
                     <h3 className="text-neon-cyan font-bold mb-2">Flagship 01: PROJKT 360 DEGREE</h3>
                     <p className="text-sm text-gray-400 leading-relaxed mb-3">
-                      An enterprise-grade autonomous second brain and multi-agent execution pipeline synthesizing Gemini 3.8, Opus 5, Fable 5.1, and vector retrieval.
+                      A research-to-content engine that turns my thesis work on human-centred, EU AI Act-aligned AI adoption into videos and posts.
                     </p>
                   </div>
 
                   <div className="glass-card p-6 border-l-4 border-hud-green/50 bg-hud-green/5">
                     <h3 className="text-hud-green font-bold mb-2">Flagship 02: CipherPolice</h3>
                     <p className="text-sm text-gray-400 leading-relaxed">
-                      Returning digital sovereignty with real-time tracker detection, a 35+ rule credential leak guard, and automated EU AI Act compliance checks.
+                      Privacy-first security: a Chrome MV3 extension, an LLM leak guard, an AES-256 vault and a header scanner with SSRF protection.
                       <br /><br />
                       <span className="flex flex-wrap gap-4 font-mono text-xs">
                         <a href="https://cipherpolice.com" target="_blank" rel="noopener noreferrer" className="text-neon-cyan hover:underline transition-colors">→ cipherpolice.com</a>
@@ -160,16 +160,16 @@ const App: React.FC = () => {
             Connect & <span className="hologram-text text-neon-cyan">Collaborate</span>
           </h2>
           <p className="text-gray-400 mb-2 font-mono text-sm max-w-xl mx-auto">
-            Available for enterprise AI integration, custom LLM workflows, and EU AI Act compliance consulting.
+            Open to AI development roles and projects: LLM agents, automation, AI security and EU AI Act work.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
-            <a href="mailto:007ranjithr.v@gmail.com"
+            <a href="mailto:ranjithrv1605@gmail.com"
               className="font-mono text-sm px-6 py-3 transition-all duration-300 rounded-sm"
               style={{ background: 'rgba(0,243,255,0.06)', border: '1px solid rgba(0,243,255,0.25)', color: '#00f3ff' }}
               onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 20px rgba(0,243,255,0.2)')}
               onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
             >
-              📧 007ranjithr.v@gmail.com
+              📧 ranjithrv1605@gmail.com
             </a>
             <a href="tel:+4915510174187"
               className="font-mono text-sm px-6 py-3 transition-all duration-300 rounded-sm"

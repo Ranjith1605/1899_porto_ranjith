@@ -3,11 +3,11 @@ import { motion } from 'framer-motion';
 import { PROFILE } from '../constants';
 
 const ROLES = [
-  'AI Integration Specialist (Germany)',
-  'Founder & Lead Architect @ CipherPolice',
-  'PROJKT 360 DEGREE Creator',
-  'EU AI Act & Compliance Expert',
-  'Enterprise LLM Automation Engineer',
+  'AI Alchemist',
+  'Superintelligence Architect',
+  'AI Agents & Automation',
+  'AI Security · Founder of CipherPolice',
+  'Human-Centred AI · EU AI Act',
 ];
 
 const TypingText: React.FC<{ texts: string[] }> = ({ texts }) => {
@@ -129,13 +129,13 @@ const Hero: React.FC = () => {
               <span>📍</span> Hannover, Germany
             </span>
             <span className="font-mono text-xs px-3 py-1 rounded-full border border-hud-green/30 bg-hud-green/5 text-hud-green flex items-center gap-1.5">
-              <span>🛡️</span> EU AI Act & DSGVO Expert
+              <span>🛡️</span> AI Security · EU AI Act
             </span>
             <span className="font-mono text-xs px-3 py-1 rounded-full border border-neon-amber/30 bg-neon-amber/5 text-neon-amber flex items-center gap-1.5">
-              <span>⚡</span> Multi-Agent & RAG Architect
+              <span>⚡</span> LLM Agents · MCP · RAG
             </span>
             <span className="font-mono text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-gray-300 flex items-center gap-1.5">
-              <span>🎓</span> M.Eng & Impact MBA
+              <span>🎓</span> Impact MBA (2026)
             </span>
           </motion.div>
 
