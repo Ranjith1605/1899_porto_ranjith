@@ -1,8 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-
-interface Props {
-  scrollY: number;
-}
+import { EVENTS, useSettings } from '../context/Settings';
 
 interface Star {
   x: number; y: number; z: number; size: number;
@@ -121,16 +118,18 @@ const drawShip = (ctx: CanvasRenderingContext2D, x: number, y: number, scale: nu
   ctx.restore();
 };
 
-const SpaceBackground: React.FC<Props> = ({ scrollY }) => {
+const BASE_SPEED = { warp: 4, cruise: 0.8, still: 0 } as const;
+
+const SpaceBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const starsRef = useRef<Star[]>([]);
   const shipsRef = useRef<Ship[]>([]);
   const frameRef = useRef<number>(0);
-  const scrollRef = useRef(0);
-
-  useEffect(() => {
-    scrollRef.current = scrollY;
-  }, [scrollY]);
+  const { settings } = useSettings();
+  // The draw loop lives in a mount-once effect; it reads settings through a ref
+  // so toggling them never tears down and rebuilds the canvas.
+  const settingsRef = useRef(settings);
+  settingsRef.current = settings;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -138,24 +137,38 @@ const SpaceBackground: React.FC<Props> = ({ scrollY }) => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Logical (CSS pixel) size; the backing store is scaled by devicePixelRatio
+    // so stars stay crisp on retina screens instead of being upscaled blurry.
+    let W = window.innerWidth;
+    let H = window.innerHeight;
+    let boost = 0;
+    const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth;
+      H = window.innerHeight;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (!running) draw(); // a still starfield still needs repainting at the new size
     };
 
+    const newStar = (z = Math.random() * W): Star => ({
+      x: Math.random() * W - W / 2,
+      y: Math.random() * H - H / 2,
+      z,
+      size: Math.random() * 1.5 + 0.2,
+    });
+
     const initStars = () => {
-      starsRef.current = Array.from({ length: 700 }, () => ({
-        x: Math.random() * (canvasRef.current?.width ?? 1920) - (canvasRef.current?.width ?? 1920) / 2,
-        y: Math.random() * (canvasRef.current?.height ?? 1080) - (canvasRef.current?.height ?? 1080) / 2,
-        z: Math.random() * (canvasRef.current?.width ?? 1920),
-        size: Math.random() * 1.5 + 0.2,
-      }));
+      starsRef.current = Array.from({ length: 700 }, () => newStar());
     };
 
     const initShips = () => {
       shipsRef.current = Array.from({ length: 20 }, (_, i) => ({
         x: Math.random() * 2000,
-        y: 80 + Math.random() * (canvasRef.current?.height ?? 800) * 0.7,
+        y: 80 + Math.random() * H * 0.7,
         layer: i < 6 ? 2 : i < 14 ? 1 : 0, // 6 far, 8 mid, 6 near
         speed: 0.2 + Math.random() * 0.3,
         scale: i < 6 ? 0.35 : i < 14 ? 0.6 : 1.0,
@@ -165,13 +178,17 @@ const SpaceBackground: React.FC<Props> = ({ scrollY }) => {
     };
 
     let time = 0;
+    let running = false;
 
     const draw = () => {
-      const W = canvas.width;
-      const H = canvas.height;
-      const cx = W / 2;
-      const cy = H / 2;
-      const scroll = scrollRef.current;
+      const { starfield, ships, reducedMotion } = settingsRef.current;
+      const still = starfield === 'still' || reducedMotion;
+      const scroll = window.scrollY;
+
+      pointer.x += (pointer.tx - pointer.x) * 0.05;
+      pointer.y += (pointer.ty - pointer.y) * 0.05;
+      const cx = W / 2 + (still ? 0 : pointer.x * 30);
+      const cy = H / 2 + (still ? 0 : pointer.y * 30);
 
       // ── Background ──────────────────────────────────────────────
       ctx.fillStyle = '#020206';
@@ -179,9 +196,9 @@ const SpaceBackground: React.FC<Props> = ({ scrollY }) => {
 
       // Nebula layers
       const nebulaPositions = [
-        { x: cx * 0.3, y: cy * 0.6, r1: '#4a007822', r2: '#1a004400' },
-        { x: cx * 1.6, y: cy * 1.3, r1: '#00224422', r2: '#00004400' },
-        { x: cx, y: cy * 0.4, r1: '#00334433', r2: '#00000000' },
+        { x: W * 0.15, y: H * 0.3, r1: '#4a007822', r2: '#1a004400' },
+        { x: W * 0.8, y: H * 0.65, r1: '#00224422', r2: '#00004400' },
+        { x: W * 0.5, y: H * 0.2, r1: '#00334433', r2: '#00000000' },
       ];
       nebulaPositions.forEach(n => {
         const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, W * 0.55);
@@ -192,20 +209,31 @@ const SpaceBackground: React.FC<Props> = ({ scrollY }) => {
       });
 
       // ── Stars ────────────────────────────────────────────────────
-      const starSpeed = 0.8;
+      boost *= 0.94;
+      const starSpeed = still ? 0 : BASE_SPEED[starfield] + boost * 28;
+      const streak = starSpeed > 2.5;
       starsRef.current.forEach(star => {
         star.z -= starSpeed;
-        if (star.z <= 0) {
-          star.z = W;
-          star.x = Math.random() * W - cx;
-          star.y = Math.random() * H - cy;
-        }
+        // z can exceed W after the window shrinks; without this reset the size
+        // below goes negative and ctx.arc throws, freezing the whole loop.
+        if (star.z <= 1 || star.z > W) Object.assign(star, newStar(W));
         const sx = (star.x / star.z) * W + cx;
         const sy = (star.y / star.z) * H + cy;
-        const size = (1 - star.z / W) * star.size * 2.5;
-        const alpha = 1 - star.z / W;
-        if (sx >= 0 && sx < W && sy >= 0 && sy < H) {
-          ctx.fillStyle = `rgba(200, 220, 255, ${alpha * 0.9})`;
+        const depth = 1 - star.z / W;
+        const size = Math.max(depth * star.size * 2.5, 0.1);
+        if (sx < 0 || sx >= W || sy < 0 || sy >= H) return;
+        if (streak) {
+          const pz = star.z + starSpeed * 1.6;
+          const px = (star.x / pz) * W + cx;
+          const py = (star.y / pz) * H + cy;
+          ctx.strokeStyle = `rgba(200, 230, 255, ${depth * 0.9})`;
+          ctx.lineWidth = size;
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(sx, sy);
+          ctx.stroke();
+        } else {
+          ctx.fillStyle = `rgba(200, 220, 255, ${depth * 0.9})`;
           ctx.beginPath();
           ctx.arc(sx, sy, size, 0, Math.PI * 2);
           ctx.fill();
@@ -213,51 +241,97 @@ const SpaceBackground: React.FC<Props> = ({ scrollY }) => {
       });
 
       // ── Armada of Ships ──────────────────────────────────────────
-      const layerSpeeds = [0.022, 0.012, 0.005]; // near, mid, far
-      const layerColors = ['#00f3ff', '#ffaa00', '#7055ff'];
+      if (ships) {
+        const layerSpeeds = [0.022, 0.012, 0.005]; // near, mid, far
+        const layerColors = ['#00f3ff', '#ffaa00', '#7055ff'];
 
-      shipsRef.current.forEach(ship => {
-        // Scroll-driven parallax: each layer moves at different speed
-        const parallaxOffset = scroll * layerSpeeds[ship.layer];
-        const sx = (ship.x - parallaxOffset * 80) % (W + 400);
-        const effectiveSx = sx < -200 ? sx + W + 400 : sx;
+        shipsRef.current.forEach(ship => {
+          // Scroll-driven parallax: each layer moves at different speed
+          const parallaxOffset = scroll * layerSpeeds[ship.layer];
+          const sx = (ship.x - parallaxOffset * 80 - (still ? 0 : pointer.x * (3 - ship.layer) * 8)) % (W + 400);
+          const effectiveSx = sx < -200 ? sx + W + 400 : sx;
 
-        // Engine trail
-        const trailLength = ship.layer === 0 ? 60 : ship.layer === 1 ? 40 : 20;
-        const trailGrad = ctx.createLinearGradient(effectiveSx, ship.y - trailLength, effectiveSx, ship.y + 20);
-        trailGrad.addColorStop(0, layerColors[ship.layer] + '00');
-        trailGrad.addColorStop(1, layerColors[ship.layer] + '44');
-        ctx.fillStyle = trailGrad;
-        ctx.fillRect(effectiveSx - 2 * ship.scale, ship.y - trailLength, 4 * ship.scale, trailLength);
+          // Engine trail
+          const trailLength = ship.layer === 0 ? 60 : ship.layer === 1 ? 40 : 20;
+          const trailGrad = ctx.createLinearGradient(effectiveSx, ship.y - trailLength, effectiveSx, ship.y + 20);
+          trailGrad.addColorStop(0, layerColors[ship.layer] + '00');
+          trailGrad.addColorStop(1, layerColors[ship.layer] + '44');
+          ctx.fillStyle = trailGrad;
+          ctx.fillRect(effectiveSx - 2 * ship.scale, ship.y - trailLength, 4 * ship.scale, trailLength);
 
-        drawShip(ctx, effectiveSx, ship.y, ship.scale, ship.type, layerColors[ship.layer]);
-      });
+          drawShip(ctx, effectiveSx, ship.y, ship.scale, ship.type, layerColors[ship.layer]);
+        });
+      }
 
       // ── Subtle scanline ──────────────────────────────────────────
       ctx.fillStyle = 'rgba(0,243,255,0.012)';
       ctx.fillRect(0, (time * 0.5) % H, W, 2);
 
       time++;
-      frameRef.current = requestAnimationFrame(draw);
     };
 
+    // Animate continuously, except in "still" / reduced-motion mode where we
+    // repaint only on scroll (ships keep their parallax) to save battery.
+    const loop = () => {
+      draw();
+      const { starfield, reducedMotion } = settingsRef.current;
+      if ((starfield === 'still' || reducedMotion) && boost < 0.01) {
+        running = false;
+        return;
+      }
+      frameRef.current = requestAnimationFrame(loop);
+    };
+    const start = () => {
+      if (running) return;
+      running = true;
+      frameRef.current = requestAnimationFrame(loop);
+    };
+
+    const onWarp = () => {
+      if (settingsRef.current.reducedMotion) return;
+      boost = 1;
+      start();
+    };
+    const onPointer = (e: PointerEvent) => {
+      if (e.pointerType === 'touch') return;
+      pointer.tx = e.clientX / W - 0.5;
+      pointer.ty = e.clientY / H - 0.5;
+    };
+    const onScroll = () => { if (!running) draw(); };
+
     window.addEventListener('resize', resize);
+    window.addEventListener(EVENTS.warp, onWarp);
+    window.addEventListener('pointermove', onPointer, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
     resize();
     initStars();
     initShips();
-    draw();
+    start();
+
+    // Settings changes (e.g. Still → Cruise) need to restart a stopped loop.
+    const restart = () => start();
+    window.addEventListener('rr:settings-changed', restart);
 
     return () => {
       window.removeEventListener('resize', resize);
+      window.removeEventListener(EVENTS.warp, onWarp);
+      window.removeEventListener('pointermove', onPointer);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('rr:settings-changed', restart);
       cancelAnimationFrame(frameRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('rr:settings-changed'));
+  }, [settings.starfield, settings.reducedMotion, settings.ships]);
 
   return (
     <canvas
       ref={canvasRef}
       className="fixed top-0 left-0 w-full h-full"
       style={{ zIndex: 0, pointerEvents: 'none' }}
+      aria-hidden="true"
     />
   );
 };

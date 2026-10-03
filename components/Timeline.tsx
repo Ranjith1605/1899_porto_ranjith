@@ -21,7 +21,7 @@ const Timeline: React.FC = () => {
         </motion.div>
 
         {/* Timeline */}
-        <div className="relative pl-8">
+        <div className="relative pl-6 sm:pl-8">
           {/* Vertical line */}
           <div
             className="timeline-glow absolute left-0 top-0 bottom-0 w-px"
@@ -36,17 +36,17 @@ const Timeline: React.FC = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="relative"
+                className="relative group"
               >
-                {/* Timeline dot */}
+                {/* Timeline dot — centred on the 1px line: back by the container's
+                    padding, minus half the 12px dot, plus half the line. The old
+                    left/transform pair left every dot ~32px right of the line. */}
                 <div
-                  className="absolute -left-8 top-1 w-3 h-3 rounded-full border-2"
+                  className="absolute top-7 -left-[calc(1.5rem+5.5px)] sm:-left-[calc(2rem+5.5px)] w-3 h-3 rounded-full border-2 transition-transform duration-300 group-hover:scale-150"
                   style={{
                     borderColor: exp.isCurrent ? '#00f3ff' : '#ffaa00',
                     background: exp.isCurrent ? 'rgba(0,243,255,0.3)' : 'rgba(255,170,0,0.2)',
                     boxShadow: exp.isCurrent ? '0 0 8px rgba(0,243,255,0.6)' : '0 0 6px rgba(255,170,0,0.4)',
-                    transform: 'translateX(-50%) translateX(8px)',
-                    left: '-8px',
                   }}
                 >
                   {exp.isCurrent && (
@@ -61,7 +61,7 @@ const Timeline: React.FC = () => {
 
                 {/* Card */}
                 <div
-                  className="glass-card rounded-sm p-6 ml-4"
+                  className="glass-card rounded-sm p-5 sm:p-6 sm:ml-4 transition-[border-color,box-shadow] duration-300 group-hover:!border-neon-cyan/50 group-hover:shadow-[0_0_30px_rgba(0,243,255,0.08)]"
                   style={{
                     borderColor: exp.isCurrent ? 'rgba(0,243,255,0.25)' : 'rgba(255,170,0,0.15)',
                   }}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CURRENT_COORDINATES } from '../constants';
+import TiltCard from './TiltCard';
 
 const colorMap = {
   cyan: {
@@ -46,18 +47,18 @@ const CurrentCoordinates: React.FC = () => {
         </motion.div>
 
         {/* Coordinate Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {CURRENT_COORDINATES.map((coord, i) => {
             const colors = colorMap[coord.color];
             return (
-              <motion.div
+              <TiltCard
                 key={i}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.15 }}
                 whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-                className="relative p-6 rounded-sm"
+                className="relative p-6 rounded-sm md:last:col-span-2 lg:last:col-span-1"
                 style={{
                   background: colors.bg,
                   border: `1px solid ${colors.border}`,
@@ -108,7 +109,7 @@ const CurrentCoordinates: React.FC = () => {
 
                 {/* HUD line at bottom */}
                 <div className="mt-4 h-px" style={{ background: `linear-gradient(to right, ${colors.dot}44, transparent)` }} />
-              </motion.div>
+              </TiltCard>
             );
           })}
         </div>

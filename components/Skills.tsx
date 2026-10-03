@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { SKILL_CATEGORIES } from '../constants';
 
 const variantClasses = {
@@ -15,6 +15,12 @@ const variantColors = {
 };
 
 const Skills: React.FC = () => {
+  // Filter toggles. "All" is the default, so every skill is visible on load and
+  // the filter only ever narrows the view — nothing is removed.
+  const [filter, setFilter] = useState<number | null>(null);
+  const visible = SKILL_CATEGORIES.map((cat, ci) => ({ cat, ci })).filter(({ ci }) => filter === null || filter === ci);
+  const total = SKILL_CATEGORIES.reduce((n, c) => n + c.skills.length, 0);
+
   return (
     <section id="arsenal" className="relative py-28 px-6" style={{ zIndex: 10 }}>
       <div className="max-w-6xl mx-auto">
@@ -32,17 +38,46 @@ const Skills: React.FC = () => {
           </h2>
         </motion.div>
 
+        {/* Category toggles */}
+        <div className="flex flex-wrap justify-center gap-2 mb-12" role="group" aria-label="Filter skills by category">
+          {[{ label: 'All', idx: null as number | null, color: '#e5e7eb', count: total },
+            ...SKILL_CATEGORIES.map((c, i) => ({ label: c.title, idx: i as number | null, color: variantColors[c.variant].header, count: c.skills.length }))].map(t => {
+            const active = filter === t.idx;
+            return (
+              <button
+                key={t.label}
+                type="button"
+                aria-pressed={active}
+                onClick={() => setFilter(t.idx)}
+                data-cursor="FILTER"
+                className="px-3 py-1.5 rounded-full border font-mono text-[11px] tracking-wider transition-all duration-200"
+                style={{
+                  color: active ? '#020206' : t.color,
+                  background: active ? t.color : 'rgba(255,255,255,0.03)',
+                  borderColor: active ? t.color : 'rgba(255,255,255,0.12)',
+                  boxShadow: active ? `0 0 14px ${t.color}66` : 'none',
+                }}
+              >
+                {t.label} <span className="opacity-60">{t.count}</span>
+              </button>
+            );
+          })}
+        </div>
+
         <div className="space-y-14">
-          {SKILL_CATEGORIES.map((cat, ci) => {
+          <AnimatePresence mode="popLayout" initial={false}>
+          {visible.map(({ cat, ci }) => {
             const colors = variantColors[cat.variant];
             const pill = variantClasses[cat.variant];
             return (
               <motion.div
                 key={ci}
+                layout
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 30, transition: { duration: 0.2 } }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: ci * 0.1 }}
+                transition={{ duration: 0.5, delay: filter === null ? ci * 0.1 : 0 }}
               >
                 {/* Category label */}
                 <div className="flex items-center gap-4 mb-6">
@@ -77,6 +112,7 @@ const Skills: React.FC = () => {
               </motion.div>
             );
           })}
+          </AnimatePresence>
         </div>
       </div>
     </section>

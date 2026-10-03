@@ -3,6 +3,7 @@ import { ChatMessage } from '../types';
 import { MessageSquare, X, Send, Minimize2, Calendar, Mail, User, Clock, CheckCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
+import { EVENTS } from '../context/Settings';
 
 type ChatState = 'IDLE' | 'BOOKING_DATE' | 'BOOKING_TIME' | 'CONFIRM_BOOKING' | 'NAME_INPUT';
 
@@ -31,6 +32,19 @@ const CommsLink: React.FC = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    const onOpen = () => setIsOpen(true);
+    window.addEventListener(EVENTS.openComms, onOpen);
+    return () => window.removeEventListener(EVENTS.openComms, onOpen);
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen]);
 
   const addMessage = (role: 'user' | 'model', text: string) => {
     setMessages(prev => [...prev, { role, text, timestamp: Date.now() }]);
@@ -114,13 +128,16 @@ const CommsLink: React.FC = () => {
     setIsThinking(false);
   };
 
-  const handleSend = () => {
-    if (!input.trim()) return;
-    const userMsg = input;
-    addMessage('user', userMsg);
+  // Takes the text directly. The quick-action buttons used to call
+  // setInput(x) and then handleSend(), but handleSend read `input` from the same
+  // render — still the old (usually empty) value — so the buttons did nothing.
+  const send = (text: string) => {
+    if (!text.trim() || isThinking) return;
+    addMessage('user', text);
     setInput('');
-    processInput(userMsg);
+    processInput(text);
   };
+  const handleSend = () => send(input);
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
@@ -131,24 +148,25 @@ const CommsLink: React.FC = () => {
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="mb-4 w-80 md:w-96 bg-black/95 border border-neon-cyan shadow-[0_0_20px_rgba(0,243,255,0.2)] rounded-lg overflow-hidden flex flex-col"
-            style={{ height: '500px' }}
+            role="dialog"
+            aria-label="CipherBot assistant"
+            className="mb-4 w-[min(24rem,calc(100vw-3rem))] h-[min(500px,calc(100dvh-8rem))] bg-black/95 border border-neon-cyan shadow-[0_0_20px_rgba(0,243,255,0.2)] rounded-lg overflow-hidden flex flex-col"
           >
             {/* Header */}
             <div className="p-3 flex justify-between items-center border-b border-neon-cyan bg-neon-cyan/10">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full animate-pulse bg-matrix-green"></div>
+                <div className="w-2 h-2 rounded-full animate-pulse bg-hud-green"></div>
                 <span className="font-mono text-xs font-bold text-neon-cyan">
                   CIPHER_BOT // ASSISTANT
                 </span>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-white">
+              <button type="button" onClick={() => setIsOpen(false)} aria-label="Minimise chat" className="text-gray-400 hover:text-white p-1">
                 <Minimize2 size={16} />
               </button>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwMDAwIiBmaWxsLW9wYWNpdHk9IjAuMiIvPgo8L3N2Zz4=')]">
+            <div aria-live="polite" className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwMDAwIiBmaWxsLW9wYWNpdHk9IjAuMiIvPgo8L3N2Zz4=')]">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`max-w-[85%] p-3 text-sm rounded ${msg.role === 'user'
@@ -172,16 +190,16 @@ const CommsLink: React.FC = () => {
             {/* Quick Actions (Visible when IDLE) */}
             {chatState === 'IDLE' && !isThinking && (
               <div className="p-2 bg-black border-t border-gray-800 flex gap-2 overflow-x-auto">
-                <button onClick={() => { setInput('Book Call'); handleSend(); }} className="flex items-center gap-1 px-3 py-1 bg-gray-900 border border-gray-700 rounded text-xs text-neon-cyan hover:bg-gray-800 whitespace-nowrap">
+                <button type="button" onClick={() => send('Book Call')} className="flex items-center gap-1 px-3 py-1 bg-gray-900 border border-gray-700 rounded text-xs text-neon-cyan hover:bg-gray-800 whitespace-nowrap">
                   <Calendar size={12} /> Book Call
                 </button>
-                <button onClick={() => { setInput('Contact Info'); handleSend(); }} className="flex items-center gap-1 px-3 py-1 bg-gray-900 border border-gray-700 rounded text-xs text-neon-amber hover:bg-gray-800 whitespace-nowrap">
+                <button type="button" onClick={() => send('Contact Info')} className="flex items-center gap-1 px-3 py-1 bg-gray-900 border border-gray-700 rounded text-xs text-neon-amber hover:bg-gray-800 whitespace-nowrap">
                   <Mail size={12} /> Contact
                 </button>
-                <button onClick={() => { setInput('About CipherPolice'); handleSend(); }} className="flex items-center gap-1 px-3 py-1 bg-gray-900 border border-gray-700 rounded text-xs text-hud-green hover:bg-gray-800 whitespace-nowrap">
+                <button type="button" onClick={() => send('About CipherPolice')} className="flex items-center gap-1 px-3 py-1 bg-gray-900 border border-gray-700 rounded text-xs text-hud-green hover:bg-gray-800 whitespace-nowrap">
                   🛡️ CipherPolice
                 </button>
-                <button onClick={() => { setInput('About PROJKT 360 DEGREE'); handleSend(); }} className="flex items-center gap-1 px-3 py-1 bg-gray-900 border border-gray-700 rounded text-xs text-neon-cyan hover:bg-gray-800 whitespace-nowrap">
+                <button type="button" onClick={() => send('About PROJKT 360 DEGREE')} className="flex items-center gap-1 px-3 py-1 bg-gray-900 border border-gray-700 rounded text-xs text-neon-cyan hover:bg-gray-800 whitespace-nowrap">
                   ⚡ 360° AI
                 </button>
               </div>
@@ -194,18 +212,18 @@ const CommsLink: React.FC = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    // If the user presses Enter and the input matches a quick action, we want to trigger it.
-                    // But handleSend uses the current 'input' state which is correct.
-                    handleSend();
-                  }
+                  if (e.key === 'Enter') handleSend();
                 }}
                 placeholder="Type your command..."
+                aria-label="Message CipherBot"
                 className="flex-1 bg-gray-900 text-white text-sm p-2 border border-gray-700 focus:outline-none focus:border-neon-cyan rounded font-mono transition-colors"
               />
               <button
+                type="button"
                 onClick={handleSend}
                 disabled={!input.trim() || isThinking}
+                aria-label="Send message"
+                data-cursor="SEND"
                 className="p-2 rounded bg-neon-cyan text-black hover:bg-white transition-colors disabled:opacity-50"
               >
                 <Send size={16} />
@@ -217,7 +235,11 @@ const CommsLink: React.FC = () => {
 
       {/* Toggle Button */}
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+        aria-label={isOpen ? 'Close CipherBot chat' : 'Open CipherBot chat'}
+        data-cursor={isOpen ? 'CLOSE' : 'CHAT'}
         className="bg-black border-2 border-neon-cyan text-neon-cyan p-4 rounded-full shadow-[0_0_15px_rgba(0,243,255,0.3)] hover:bg-neon-cyan hover:text-black transition-all duration-300 group"
       >
         {isOpen ? <X size={24} /> : <MessageSquare size={24} className="group-hover:animate-bounce" />}

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
+import { motion, MotionConfig } from 'framer-motion';
 
 // Scroll-aware App with cinematic space portfolio
 import SpaceBackground from './components/StarfieldBackground';
@@ -11,7 +11,16 @@ import Timeline from './components/Timeline';
 import Projects from './components/Projects';
 import Academy from './components/AiLab';
 import CommsLink from './components/CommsLink';
-import SpaceAudio from './components/SpaceAudio';
+import ControlPanel from './components/ControlPanel';
+import CommandPalette from './components/CommandPalette';
+import CustomCursor from './components/CustomCursor';
+import ScrollHud from './components/ScrollHud';
+import UiSounds from './components/UiSounds';
+import { EVENTS, SettingsProvider, emit, useSettings } from './context/Settings';
+
+// Fixed per emoji: these were Math.random() inside render, so every re-render
+// (previously every scroll event) restarted each float with a new duration.
+const EMOJIS = ['🛸', '🦹🏽‍♂️', '👾', '✝️', '🐉', '🚀'].map((emoji, i) => ({ emoji, duration: 3 + ((i * 7) % 5) * 0.4 }));
 
 const SectionDivider: React.FC = () => (
   <div className="flex items-center my-4 px-6 max-w-6xl mx-auto" aria-hidden>
@@ -25,11 +34,13 @@ const SectionDivider: React.FC = () => (
 
 const Footer: React.FC = () => (
   <footer className="relative py-12 px-6 border-t" style={{ borderColor: 'rgba(0,243,255,0.08)', zIndex: 10 }}>
-    <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
+    <div className="max-w-6xl mx-auto flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4 text-center sm:text-left">
       <p className="font-mono text-xs text-gray-400">
         &copy; {new Date().getFullYear()} Ranjith Ramadass — AI Alchemist · Hannover, Germany
       </p>
-      <div className="flex items-center gap-4">
+      {/* flex-wrap: without it this row was 22px wider than a 375px phone, which
+          widened the whole page and pushed the navbar's right edge off-screen. */}
+      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
         <a href="https://github.com/Ranjith1605" target="_blank" rel="noopener noreferrer"
           className="font-mono text-xs text-gray-500 hover:text-neon-cyan transition-colors tracking-widest">
           GITHUB
@@ -54,23 +65,25 @@ const Footer: React.FC = () => (
   </footer>
 );
 
-const App: React.FC = () => {
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+const Shell: React.FC = () => {
+  const { settings } = useSettings();
 
   return (
+    // "always" only switches off transform/layout animation; opacity fades stay,
+    // so content still appears gently instead of popping in.
+    <MotionConfig reducedMotion={settings.reducedMotion ? 'always' : 'never'}>
     <div className="relative min-h-screen" style={{ background: '#020206' }}>
-      {/* Fixed background layer */}
-      <SpaceBackground scrollY={scrollY} />
+      <a href="#coordinates" className="skip-link">Skip to content</a>
+
+      {/* Fixed background layer — reads scroll position itself, so scrolling no
+          longer re-renders the entire app on every scroll event. */}
+      <SpaceBackground />
+      <ScrollHud />
 
       {/* Content layer */}
       <div className="relative" style={{ zIndex: 10 }}>
         <Navbar />
+        <main>
         <Hero />
         <SectionDivider />
         <CurrentCoordinates />
@@ -137,11 +150,11 @@ const App: React.FC = () => {
                 <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-neon-cyan/40 pointer-events-none" />
                 
                 <div className="rounded-lg overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,243,255,0.15)] bg-space-void">
-                  <img src="/dream-spaceship.png" alt="Captain Ranjith on the Bridge" className="w-full h-auto object-cover" />
+                  <img src="/dream-spaceship.png" alt="Captain Ranjith on the Bridge" width={640} height={640} loading="lazy" decoding="async" className="w-full h-auto object-cover" />
                 </div>
                 
-                {/* Coordinates overlay */}
-                <div className="absolute bottom-6 right-6 font-mono text-[10px] text-neon-cyan opacity-60 tracking-tighter text-right">
+                {/* Coordinates overlay — on a dark plate so it reads over the bright image */}
+                <div className="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 font-mono text-[9px] sm:text-[10px] text-neon-cyan/80 tracking-tighter text-right bg-black/60 backdrop-blur-sm px-2 py-1 rounded-sm">
                   SECTOR: 1899-ODYSSEY<br />
                   COORDINATES: 52.3702° N, 9.7332° E (Hannover)<br />
                   STATUS: ENTERPRISE AI SHIP OPERATIONAL
@@ -154,7 +167,7 @@ const App: React.FC = () => {
         <SectionDivider />
 
         {/* Comms section wrapper */}
-        <div id="comms" className="py-16 text-center" style={{ zIndex: 10 }}>
+        <section id="comms" className="py-16 px-6 text-center" style={{ zIndex: 10 }}>
           <span className="section-tag block mb-4">Hail Communication // Open Channel</span>
           <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
             Connect & <span className="hologram-text text-neon-cyan">Collaborate</span>
@@ -162,7 +175,18 @@ const App: React.FC = () => {
           <p className="text-gray-400 mb-2 font-mono text-sm max-w-xl mx-auto">
             Open to AI development roles and projects: LLM agents, automation, AI security and EU AI Act work.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-8">
+            <button
+              type="button"
+              onClick={() => emit(EVENTS.openComms)}
+              className="font-mono text-sm px-6 py-3 transition-all duration-300 rounded-sm"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.2)', color: '#e5e7eb' }}
+              onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 20px rgba(255,255,255,0.12)')}
+              onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
+              data-cursor="CHAT"
+            >
+              🤖 Book a call with CipherBot
+            </button>
             <a href="mailto:ranjithrv1605@gmail.com"
               className="font-mono text-sm px-6 py-3 transition-all duration-300 rounded-sm"
               style={{ background: 'rgba(0,243,255,0.06)', border: '1px solid rgba(0,243,255,0.25)', color: '#00f3ff' }}
@@ -190,10 +214,12 @@ const App: React.FC = () => {
           </div>
 
           {/* Floating Emoji Interactions */}
-          <div className="mt-20 flex flex-wrap justify-center items-center gap-8 sm:gap-16 pointer-events-none pb-12">
-            {['🛸', '🦹🏽‍♂️', '👾', '✝️', '🐉', '🚀'].map((emoji, i) => (
+          <div className="mt-20 flex flex-wrap justify-center items-center gap-8 sm:gap-16 pointer-events-none pb-12" aria-hidden>
+            {EMOJIS.map(({ emoji, duration }, i) => (
               <motion.div
                 key={i}
+                data-cursor="BOOP"
+                whileTap={{ scale: 0.7, rotate: 25 }}
                 initial={{ opacity: 0, y: 50, scale: 0.5, rotate: -20 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
                 viewport={{ once: false, margin: "-50px" }}
@@ -203,27 +229,39 @@ const App: React.FC = () => {
                   type: 'spring', 
                   bounce: 0.5 
                 }}
-                className="text-5xl sm:text-7xl drop-shadow-[0_0_15px_rgba(0,243,255,0.5)] cursor-default pointer-events-auto hover:scale-125 transition-transform"
+                className="text-5xl sm:text-7xl drop-shadow-[0_0_15px_rgba(0,243,255,0.5)] select-none pointer-events-auto hover:scale-125 transition-transform"
               >
                 <motion.div
                   animate={{ y: [0, -15, 0] }}
-                  transition={{ repeat: Infinity, duration: 3 + Math.random() * 2, ease: "easeInOut" }}
+                  transition={{ repeat: Infinity, duration, ease: "easeInOut" }}
                 >
                   {emoji}
                 </motion.div>
               </motion.div>
             ))}
           </div>
-        </div>
+        </section>
+        </main>
 
         <Footer />
       </div>
 
       {/* Floating elements */}
-      <SpaceAudio />
+      <ControlPanel />
       <CommsLink />
+      <CommandPalette />
+      <UiSounds />
+      <CustomCursor />
+      {settings.scanlines && <div className="rr-scanlines" aria-hidden />}
     </div>
+    </MotionConfig>
   );
 };
+
+const App: React.FC = () => (
+  <SettingsProvider>
+    <Shell />
+  </SettingsProvider>
+);
 
 export default App;

@@ -6,6 +6,8 @@ const SpaceAudio: React.FC = () => {
     const audioContextRef = useRef<AudioContext | null>(null);
     const masterGainRef = useRef<GainNode | null>(null);
     const nodesRef = useRef<AudioNode[]>([]);
+    const suspendTimerRef = useRef<number | undefined>(undefined);
+    const sparkleTimerRef = useRef<number | undefined>(undefined);
 
     const initAudio = () => {
         const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
@@ -92,8 +94,11 @@ const SpaceAudio: React.FC = () => {
         sparkleGain.connect(delay); // Feedback loop
 
         // Function to trigger random high blips
+        // Keeps rescheduling even while muted: returning early here used to end
+        // the loop for good after the first mute, so sparkles never came back.
         const triggerSparkle = () => {
-            if (!audioContextRef.current || audioContextRef.current.state === 'suspended') return;
+            sparkleTimerRef.current = window.setTimeout(triggerSparkle, 2000 + Math.random() * 3000);
+            if (!audioContextRef.current || audioContextRef.current.state !== 'running') return;
 
             const osc = ctx.createOscillator();
             const env = ctx.createGain();
@@ -112,14 +117,15 @@ const SpaceAudio: React.FC = () => {
 
             osc.start(ctx.currentTime);
             osc.stop(ctx.currentTime + 2);
-
-            setTimeout(triggerSparkle, 2000 + Math.random() * 3000);
         };
 
         triggerSparkle();
     };
 
     const toggleAudio = () => {
+        // A pending fade-out suspend from a quick mute→unmute would otherwise
+        // silence the audio while the button shows it as playing.
+        window.clearTimeout(suspendTimerRef.current);
         if (isMuted) {
             if (!audioContextRef.current) {
                 initAudio();
@@ -134,7 +140,7 @@ const SpaceAudio: React.FC = () => {
         } else {
             if (masterGainRef.current && audioContextRef.current) {
                 masterGainRef.current.gain.setTargetAtTime(0, audioContextRef.current.currentTime, 0.5);
-                setTimeout(() => {
+                suspendTimerRef.current = window.setTimeout(() => {
                     audioContextRef.current?.suspend();
                 }, 500);
             } else {
@@ -146,6 +152,8 @@ const SpaceAudio: React.FC = () => {
 
     useEffect(() => {
         return () => {
+            window.clearTimeout(suspendTimerRef.current);
+            window.clearTimeout(sparkleTimerRef.current);
             nodesRef.current.forEach(node => {
                 if (node instanceof OscillatorNode) node.stop();
                 node.disconnect();
@@ -155,18 +163,20 @@ const SpaceAudio: React.FC = () => {
     }, []);
 
     return (
-        <div className="fixed bottom-6 left-6 z-50">
-            <button
-                onClick={toggleAudio}
-                className={`p - 3 rounded - full border transition - all duration - 300 ${isMuted
-                    ? 'bg-black/50 border-gray-700 text-gray-500 hover:text-white hover:border-white'
-                    : 'bg-neon-cyan/10 border-neon-cyan text-neon-cyan shadow-[0_0_15px_rgba(0,243,255,0.3)] animate-pulse-slow'
-                    } `}
-                title={isMuted ? "Initialize Audio Systems" : "Mute Audio Systems"}
-            >
-                {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-            </button>
-        </div>
+        <button
+            type="button"
+            onClick={toggleAudio}
+            className={`p-3 rounded-full border transition-all duration-300 ${isMuted
+                ? 'bg-black/60 border-gray-700 text-gray-400 hover:text-white hover:border-white'
+                : 'bg-neon-cyan/10 border-neon-cyan text-neon-cyan shadow-[0_0_15px_rgba(0,243,255,0.3)] animate-pulse-slow'
+                }`}
+            title={isMuted ? "Initialize Audio Systems" : "Mute Audio Systems"}
+            aria-label={isMuted ? "Play ambient space music" : "Mute ambient space music"}
+            aria-pressed={!isMuted}
+            data-cursor={isMuted ? 'AUDIO ON' : 'AUDIO OFF'}
+        >
+            {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
     );
 };
 

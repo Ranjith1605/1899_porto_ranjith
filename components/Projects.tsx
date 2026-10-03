@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { PROJECTS } from '../constants';
+import TiltCard from './TiltCard';
 
 const Projects: React.FC = () => {
   return (
@@ -20,17 +21,16 @@ const Projects: React.FC = () => {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {PROJECTS.map((project, i) => (
-            <motion.div
+            <TiltCard
               key={i}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.15 }}
+              transition={{ duration: 0.6, delay: (i % 3) * 0.12 }}
               whileHover={{ y: -6, transition: { duration: 0.25 } }}
               className="group glass-card rounded-sm p-6 flex flex-col"
-              style={{ cursor: 'default' }}
               onMouseEnter={e => {
                 (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,243,255,0.4)';
                 (e.currentTarget as HTMLElement).style.boxShadow = '0 0 30px rgba(0,243,255,0.08), 0 20px 40px rgba(0,0,0,0.4)';
@@ -94,7 +94,7 @@ const Projects: React.FC = () => {
                   </span>
                 ))}
               </div>
-            </motion.div>
+            </TiltCard>
           ))}
         </div>
       </div>
