@@ -8,7 +8,7 @@ export const PROFILE = {
   email: 'ranjithrv1605@gmail.com',
   phone: '+49 1551 0174187',
   location: 'Hannover, Germany',
-  linkedin: 'https://www.linkedin.com/in/ranjith',
+  linkedin: 'https://www.linkedin.com/in/ranjith-ramadass-1591a819a',
   github: 'https://github.com/Ranjith1605',
   linktree: 'https://linktr.ee/ranjithrv007',
   cipherpolice: 'https://cipherpolice.com',

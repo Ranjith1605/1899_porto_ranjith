@@ -46,7 +46,7 @@ const Footer: React.FC = () => (
           GITHUB
         </a>
         <span className="text-gray-700">·</span>
-        <a href="https://www.linkedin.com/in/ranjith" target="_blank" rel="noopener noreferrer"
+        <a href="https://www.linkedin.com/in/ranjith-ramadass-1591a819a" target="_blank" rel="noopener noreferrer"
           className="font-mono text-xs text-gray-500 hover:text-neon-amber transition-colors tracking-widest">
           LINKEDIN
         </a>
@@ -203,7 +203,7 @@ const Shell: React.FC = () => {
             >
               📱 +49 1551 0174187
             </a>
-            <a href="https://www.linkedin.com/in/ranjith" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.linkedin.com/in/ranjith-ramadass-1591a819a" target="_blank" rel="noopener noreferrer"
               className="font-mono text-sm px-6 py-3 transition-all duration-300 rounded-sm"
               style={{ background: 'rgba(255,170,0,0.06)', border: '1px solid rgba(255,170,0,0.25)', color: '#ffaa00' }}
               onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 20px rgba(255,170,0,0.2)')}

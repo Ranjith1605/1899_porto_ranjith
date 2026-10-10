@@ -155,7 +155,7 @@ const Hero: React.FC = () => {
           {/* CTAs */}
           <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-4">
             <a
-              href="https://www.linkedin.com/in/ranjith"
+              href="https://www.linkedin.com/in/ranjith-ramadass-1591a819a"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative px-6 sm:px-8 py-3 font-mono text-sm tracking-widest uppercase overflow-hidden"
